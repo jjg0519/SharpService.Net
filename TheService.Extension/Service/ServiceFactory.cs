@@ -8,24 +8,25 @@ using System.ServiceModel;
 using System.ServiceModel.Description;
 using System.Text;
 using TheService.Common;
+using System.Threading;
 
 namespace TheService.Extension
 {
     public class ServiceFactory
     {
         private static string serviceConfig = "serviceGroup/serviceConfig";
-        private static string referenceConfig = "serviceGroup/referenceConfig";
+        private static string classConfig = "serviceGroup/classConfig";
 
         private static List<ServiceHost> hosts = new List<ServiceHost>();
 
         private static List<ServiceElement> services = ConfigurationManager.GetSection(serviceConfig) as List<ServiceElement>;
-        private static  List<ReferenceElement> references = ConfigurationManager.GetSection(referenceConfig) as List<ReferenceElement>;
+        private static  List<ClassElement> classs = ConfigurationManager.GetSection(classConfig) as List<ClassElement>;
+
+        private static AutoResetEvent resetEvent = new AutoResetEvent(false);
 
         public static bool Start()
         {
             int serviceCount = 0;
-        
-
             #region InitService
             if (services != null)
             {
@@ -33,7 +34,7 @@ namespace TheService.Extension
                 {
                     if (serviceElement.Enable == false)
                         continue;
-                    ReferenceElement referenceElement = references.FirstOrDefault(x => x.Id == serviceElement.Ref);
+                    ClassElement referenceElement = classs.FirstOrDefault(x => x.Id == serviceElement.Ref);
                     if (referenceElement == null)
                     {
                         throw new Exception("referenceElement can not find !");
@@ -78,23 +79,23 @@ namespace TheService.Extension
                     hosts.Add(host);
                     host.Opened += (sender, o) =>
                     {
-                        ServiceHost _host = sender as ServiceHost;
-                        string _serviceType = _host.Description.ConfigurationName;
-                        string _interface = _host.Description.Endpoints[0].Contract.ContractType.FullName;
-                        string _endpoint = string.Join(";", _host.Description.Endpoints.ToList().Select(s => s.Address));
-                        Console.WriteLine(string.Format("service already started serviceType {0}  interface {1}  endpoint {2}  ", _serviceType, _interface, _endpoint));
+                        //ServiceHost _host = sender as ServiceHost;
+                        //string _serviceType = _host.Description.ConfigurationName;
+                        //string _interface = _host.Description.Endpoints[0].Contract.ContractType.FullName;
+                        //string _endpoint = string.Join(";", _host.Description.Endpoints.ToList().Select(s => s.Address));
+                        //Console.WriteLine(string.Format("service already started serviceType {0}  interface {1}  endpoint {2}  ", _serviceType, _interface, _endpoint));
                         serviceCount++;
+                        if (services.Count() == serviceCount)
+                        {
+                            resetEvent.Set();
+                        }
                     };
                     if (host.State != CommunicationState.Opening)
                         host.Open();
                 }
             }
             #endregion
-            while (true)
-            {
-                if (serviceCount == services.Where(x => x.Enable).Count())
-                    break;
-            }
+            resetEvent.WaitOne();
             return true;
         }
 

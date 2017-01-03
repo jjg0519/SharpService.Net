@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace TheService.Extension.ConfigFactory
 {
-    public class ConsumerElement
+    public class RefererElement
     {
         [Required]
         public string Id { get; set; }

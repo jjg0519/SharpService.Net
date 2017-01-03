@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace TheService.Extension.ConfigFactory
 {
-    public class ReferenceElement
+    public class ClassElement
     {
         [Required]
         public string Id { get; set; }

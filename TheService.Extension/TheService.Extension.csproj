@@ -53,19 +53,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Consumer\ClientFactory.cs" />
+    <Compile Include="Cluster\IHaStrategy.cs" />
+    <Compile Include="Cluster\ILoadBalance.cs" />
+    <Compile Include="Cluster\Request.cs" />
+    <Compile Include="Cluster\Response.cs" />
+    <Compile Include="LoadBalance\AbstractLoadBalance.cs" />
+    <Compile Include="LoadBalance\RandomLoadBalance.cs" />
+    <Compile Include="Referer\ClientFactory.cs" />
     <Compile Include="ConfigFactory\ConfigHelper.cs" />
-    <Compile Include="ConfigFactory\ConsumerElement.cs" />
-    <Compile Include="ConfigFactory\ReferenceElement.cs" />
-    <Compile Include="ConfigFactory\ConsumersHandler.cs" />
+    <Compile Include="ConfigFactory\RefererElement.cs" />
+    <Compile Include="ConfigFactory\ClassElement.cs" />
+    <Compile Include="ConfigFactory\ReferersHandler.cs" />
     <Compile Include="ConfigFactory\ServiceElement.cs" />
-    <Compile Include="ConfigFactory\ReferencesHandler.cs" />
+    <Compile Include="ConfigFactory\ClasssHandler.cs" />
     <Compile Include="ConfigFactory\ServicesHandler.cs" />
     <Compile Include="Message\AttachMessageBehavior.cs" />
     <Compile Include="Message\MessageEndpointBehavior.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Cluster\Referer.cs" />
+    <Compile Include="Referer\TheProxy.cs" />
     <Compile Include="Service\ServiceFactory.cs" />
-    <Compile Include="Consumer\ServiceRealProxy.cs" />
+    <Compile Include="Referer\ServiceRealProxy.cs" />
     <Compile Include="Service\ServiceUtils.cs" />
     <Compile Include="Utilst.cs" />
   </ItemGroup>
@@ -74,6 +82,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="HA\" />
     <Folder Include="Registry\" />
   </ItemGroup>
   <ItemGroup>

@@ -11,18 +11,18 @@ namespace TheService.Extension.Client
 {
     public class ClientFactory
     {
-        private static string consumerConfig = "serviceGroup/consumerConfig";
-        private static List<ConsumerElement> consumers = ConfigurationManager.GetSection(consumerConfig) as List<ConsumerElement>;
+        private static string refererConfig = "serviceGroup/refererConfig";
+        private static List<RefererElement> referers = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
 
         public static ChannelFactory<IObjcet> CreateChannelFactory<IObjcet>(string id, Dictionary<string, string> messages = null)
         {
-            var consumer = consumers.FirstOrDefault(x => x.Id == id);
-            if (consumer == null)
+            var referer = referers.FirstOrDefault(x => x.Id == id);
+            if (referer == null)
             {
-                throw new Exception("can not find consumer config");
+                throw new Exception("can not find referer config");
             }
-            var binding = ConfigHelper.CreateBinding(consumer.Binding, (SecurityMode)consumer.Security);
-            var endpoint = new EndpointAddress(consumer.Addresss[0]);
+            var binding = ConfigHelper.CreateBinding(referer.Binding, (SecurityMode)referer.Security);
+            var endpoint = new EndpointAddress(referer.Addresss[0]);
             var client = new ChannelFactory<IObjcet>(binding, endpoint);
             client.Endpoint.Behaviors.Add(new MessageEndpointBehavior(messages));
             return client;

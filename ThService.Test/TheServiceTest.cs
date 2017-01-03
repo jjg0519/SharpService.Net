@@ -13,10 +13,10 @@ namespace ThService.Test
     public class TheServiceTest
     {
         [Test]
-        public void TestConsumerConfig()
+        public void TestRefererConfig()
         {
-            string consumerConfig = "serviceGroup/consumerConfig";
-            List<ConsumerElement> consumers = ConfigurationManager.GetSection(consumerConfig) as List<ConsumerElement>;
+            string refererConfig = "serviceGroup/refererConfig";
+            List<RefererElement> referers = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
         }
 
         [Test]

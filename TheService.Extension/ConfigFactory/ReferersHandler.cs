@@ -7,54 +7,54 @@ using TheService.Common;
 
 namespace TheService.Extension.ConfigFactory
 {
-    public  class ConsumersHandler : IConfigurationSectionHandler
+    public  class ReferersHandler : IConfigurationSectionHandler
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
-            List<ConsumerElement> listConsumers = new List<ConsumerElement>();
+            List<RefererElement> listReferers = new List<RefererElement>();
             XmlDocument doc = ConfigHelper.CreateXmlDoc(section.InnerXml);
-            foreach (XmlNode consumerNode in doc.FirstChild.ChildNodes)
+            foreach (XmlNode refererNode in doc.FirstChild.ChildNodes)
             {
                 string errorMessage = string.Empty;
-                ConsumerElement consumerElement = new ConsumerElement();
-                var consumerProperties = consumerElement.GetType().GetProperties();
-                foreach (var consumerPropertie in consumerProperties)
+                RefererElement refererElement = new RefererElement();
+                refererElement.Addresss = new List<string>();
+                var refererProperties = refererElement.GetType().GetProperties();
+                foreach (var refererPropertie in refererProperties)
                 {
-                    var attr = consumerNode.Attributes[consumerPropertie.Name.ToLower()];
+                    var attr = refererNode.Attributes[refererPropertie.Name.ToLower()];
                     if (attr != null)
                     {
-                        consumerPropertie.SetValue(consumerElement, Convert.ChangeType(attr.Value, consumerPropertie.PropertyType), null);
+                        refererPropertie.SetValue(refererElement, Convert.ChangeType(attr.Value, refererPropertie.PropertyType), null);
                     }                 
-                }
-                consumerElement.Addresss = new List<string>();
-                foreach (XmlNode addressNode in consumerNode.ChildNodes)
+                }                       
+                foreach (XmlNode addressNode in refererNode.ChildNodes)
                 {
                     var address = addressNode.Attributes["address"].Value;
                     if (!string.IsNullOrEmpty(address))
                     {
                         Utility.UrlCheck(address);
-                        consumerElement.Addresss.Add(address);
+                        refererElement.Addresss.Add(address);
                     }
                     else
                     {
                         throw new Exception(" the address of the service address cannot be empty");
                     }
                 }
-                if (consumerElement.Addresss.Count() == 0)
+                if (refererElement.Addresss.Count() == 0)
                 {
                     throw new Exception(" the address of the service address cannot be empty");
                 }
-                if (consumerElement.Addresss.Distinct().Count() != consumerElement.Addresss.Count())
+                if (refererElement.Addresss.Distinct().Count() != refererElement.Addresss.Count())
                 {
                     throw new Exception(" the address of the service address cannot be same");
                 }
-                if (!ValidateHelper.ValidateEntity(consumerElement, out errorMessage))
+                if (!ValidateHelper.ValidateEntity(refererElement, out errorMessage))
                 {
                     throw new Exception(errorMessage);
                 }
-                listConsumers.Add(consumerElement);
+                listReferers.Add(refererElement);
             }
-            return listConsumers;
+            return listReferers;
         }
     }
 }
