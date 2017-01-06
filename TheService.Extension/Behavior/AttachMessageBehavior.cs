@@ -7,7 +7,7 @@ using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 using System.Text;
 
-namespace TheService.Extension.Message
+namespace TheService.Extension.Behavior
 {
     public class AttachMessageBehavior : IClientMessageInspector
     {
@@ -20,13 +20,13 @@ namespace TheService.Extension.Message
 
         #region IClientMessageInspector 成员
 
-        public void AfterReceiveReply(ref System.ServiceModel.Channels.Message reply, object correlationState)
+        public void AfterReceiveReply(ref Message reply, object correlationState)
         {
 
         }
 
 
-        public object BeforeSendRequest(ref System.ServiceModel.Channels.Message request, IClientChannel channel)
+        public object BeforeSendRequest(ref Message request, IClientChannel channel)
         {
             if (messages != null)
             {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TheService.Extension.Consumer
+namespace TheService.Extension.Referer
 {
     public class TheProxy
     {

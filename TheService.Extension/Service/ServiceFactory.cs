@@ -79,11 +79,6 @@ namespace TheService.Extension
                     hosts.Add(host);
                     host.Opened += (sender, o) =>
                     {
-                        //ServiceHost _host = sender as ServiceHost;
-                        //string _serviceType = _host.Description.ConfigurationName;
-                        //string _interface = _host.Description.Endpoints[0].Contract.ContractType.FullName;
-                        //string _endpoint = string.Join(";", _host.Description.Endpoints.ToList().Select(s => s.Address));
-                        //Console.WriteLine(string.Format("service already started serviceType {0}  interface {1}  endpoint {2}  ", _serviceType, _interface, _endpoint));
                         serviceCount++;
                         if (services.Count() == serviceCount)
                         {

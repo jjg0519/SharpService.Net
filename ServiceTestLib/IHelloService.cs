@@ -11,5 +11,8 @@ namespace ServiceTestLib
     {
         [OperationContract]
         string GetMessage(string name);
+
+        [OperationContract]
+        Person GetMessage1(Person person, Student student);
     }
 }

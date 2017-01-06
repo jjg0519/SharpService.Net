@@ -1,13 +1,13 @@
 ﻿using TheService.Extension.ConfigFactory;
-using TheService.Extension.Message;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
 using System.Text;
+using TheService.Extension.Behavior;
 
-namespace TheService.Extension.Client
+namespace TheService.Extension.Referer
 {
     public class ClientFactory
     {
@@ -23,9 +23,9 @@ namespace TheService.Extension.Client
             }
             var binding = ConfigHelper.CreateBinding(referer.Binding, (SecurityMode)referer.Security);
             var endpoint = new EndpointAddress(referer.Addresss[0]);
-            var client = new ChannelFactory<IObjcet>(binding, endpoint);
-            client.Endpoint.Behaviors.Add(new MessageEndpointBehavior(messages));
-            return client;
+            var factory = new ChannelFactory<IObjcet>(binding, endpoint);
+            factory.Endpoint.Behaviors.Add(new MyEndpointBehavior(messages));
+            return factory;
         }
     }
 }

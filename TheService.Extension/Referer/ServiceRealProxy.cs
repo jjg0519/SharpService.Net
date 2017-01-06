@@ -1,14 +1,12 @@
-﻿using TheService.Extension.Client;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using System.Runtime.Remoting.Proxies;
 using System.ServiceModel;
-using System.ServiceModel.Channels;
 using System.Text;
 
-namespace TheService.Extension
+namespace TheService.Extension.Referer
 {
     public class ServiceRealProxy<IObjcet> : RealProxy
     {
@@ -26,8 +24,8 @@ namespace TheService.Extension
         {
             IMethodReturnMessage methodReturn = null;
             IMethodCallMessage methodCall = (IMethodCallMessage)msg;
-            var client = ClientFactory.CreateChannelFactory<IObjcet>(id, messages);
-            var channel = client.CreateChannel();
+            var factory = ClientFactory.CreateChannelFactory<IObjcet>(id, messages);
+            var channel = factory.CreateChannel();
             try
             {
                 object[] copiedArgs = Array.CreateInstance(typeof(object), methodCall.Args.Length) as object[];

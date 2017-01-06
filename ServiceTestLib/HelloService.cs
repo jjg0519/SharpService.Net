@@ -17,5 +17,22 @@ namespace ServiceTestLib
             var msg = ServiceUtils.GetHeaderValue("test");
             return "Hello " + name + msg;
         }
+
+        public Person GetMessage1(Person person, Student student)
+        {
+            person.PerName = "TestName";
+            return person;
+        }
     }
+
+    public class Person
+    {
+        public string PerName { set; get; }
+    }
+
+    public class Student
+    {
+        public string StuName { set; get; }
+    }
+
 }
