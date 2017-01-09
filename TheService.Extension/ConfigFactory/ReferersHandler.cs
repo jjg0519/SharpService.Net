@@ -7,17 +7,17 @@ using TheService.Common;
 
 namespace TheService.Extension.ConfigFactory
 {
-    public  class ReferersHandler : IConfigurationSectionHandler
+    public class ReferersHandler : IConfigurationSectionHandler
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
-            List<RefererElement> listReferers = new List<RefererElement>();
+            List<RefererElement> refererElements = new List<RefererElement>();
             XmlDocument doc = ConfigHelper.CreateXmlDoc(section.InnerXml);
             foreach (XmlNode refererNode in doc.FirstChild.ChildNodes)
             {
                 string errorMessage = string.Empty;
                 RefererElement refererElement = new RefererElement();
-                refererElement.Addresss = new List<string>();
+                refererElement.Referers = new List<Referer>();
                 var refererProperties = refererElement.GetType().GetProperties();
                 foreach (var refererPropertie in refererProperties)
                 {
@@ -25,36 +25,38 @@ namespace TheService.Extension.ConfigFactory
                     if (attr != null)
                     {
                         refererPropertie.SetValue(refererElement, Convert.ChangeType(attr.Value, refererPropertie.PropertyType), null);
-                    }                 
-                }                       
+                    }
+                }
                 foreach (XmlNode addressNode in refererNode.ChildNodes)
                 {
-                    var address = addressNode.Attributes["address"].Value;
-                    if (!string.IsNullOrEmpty(address))
+                    Referer _ref = new Referer() { Interface = refererElement.Interface, Assembly = refererElement.Assembly };
+                    var refProperties = _ref.GetType().GetProperties();
+                    foreach (var refPropertie in refProperties)
                     {
-                        Utility.UrlCheck(address);
-                        refererElement.Addresss.Add(address);
+                        var attr = addressNode.Attributes[refPropertie.Name.ToLower()];
+                        if (attr != null)
+                        {
+                            refPropertie.SetValue(_ref, Convert.ChangeType(attr.Value, refPropertie.PropertyType), null);
+                        }
                     }
-                    else
+
+                    if (string.IsNullOrEmpty(_ref.Address))
                     {
                         throw new Exception(" the address of the service address cannot be empty");
                     }
-                }
-                if (refererElement.Addresss.Count() == 0)
-                {
-                    throw new Exception(" the address of the service address cannot be empty");
-                }
-                if (refererElement.Addresss.Distinct().Count() != refererElement.Addresss.Count())
-                {
-                    throw new Exception(" the address of the service address cannot be same");
+                    Uri uri = HttpHelper.GetUri(_ref.Address);
+                    _ref.Host = uri.Host;
+                    _ref.Port = uri.Port;
+                    refererElement.Referers.Add(_ref);               
                 }
                 if (!ValidateHelper.ValidateEntity(refererElement, out errorMessage))
                 {
                     throw new Exception(errorMessage);
                 }
-                listReferers.Add(refererElement);
+                refererElements.Add(refererElement);
             }
-            return listReferers;
+            return refererElements;
         }
+
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TheService.Extension.Cluster;
 using TheService.Extension.ConfigFactory;
 
 namespace TheService.Extension.LoadBalance
@@ -18,27 +17,27 @@ namespace TheService.Extension.LoadBalance
 
         public virtual Referer Select(Request request)
         {
-            RefererElement referer = _referer;
-            Referer _ref = null;
-            if (referer.Addresss.Count() > 1)
-            {
-                _ref = DoSelect(request);
-            }
-            else if (referer.Addresss.Count() == 1)
-            {
-                _ref = new Referer()
-                {
-                    Interface = referer.Interface,
-                    Assembly = referer.Assembly,
-                    Binding = referer.Binding,
-                    Security = referer.Security,
-                    Address = referer.Addresss[0]
-                };
-            }
-            if (_ref != null)
-            {
-                return _ref;
-            }
+            //RefererElement referer = _referer;
+            //Referer _ref = null;
+            //if (referer.Addresss.Count() > 1)
+            //{
+            //    _ref = DoSelect(request);
+            //}
+            //else if (referer.Addresss.Count() == 1)
+            //{
+            //    _ref = new Referer()
+            //    {
+            //        Interface = referer.Interface,
+            //        Assembly = referer.Assembly,
+            //        Binding = referer.Binding,
+            //        Security = referer.Security,
+            //        Address = referer.Addresss[0]
+            //    };
+            //}
+            //if (_ref != null)
+            //{
+            //    return _ref;
+            //}
             throw new Exception(string.Format("No available referers for call request:{0}", request.id));
         }
 

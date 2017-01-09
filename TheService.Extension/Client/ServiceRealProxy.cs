@@ -6,7 +6,7 @@ using System.Runtime.Remoting.Proxies;
 using System.ServiceModel;
 using System.Text;
 
-namespace TheService.Extension.Referer
+namespace TheService.Extension.Client
 {
     public class ServiceRealProxy<IObjcet> : RealProxy
     {

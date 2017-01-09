@@ -6,6 +6,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using TheService.Extension;
+using TheService.Extension.Client;
 using TheService.Extension.ConfigFactory;
 
 namespace ThService.Test
@@ -16,7 +17,7 @@ namespace ThService.Test
         public void TestRefererConfig()
         {
             string refererConfig = "serviceGroup/refererConfig";
-            List<RefererElement> referers = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
+            List<RefererElement> refererElements = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
         }
 
         [Test]

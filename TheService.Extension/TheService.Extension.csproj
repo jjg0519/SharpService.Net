@@ -64,9 +64,7 @@
     <Compile Include="Formatter\NewtonsoftJsonClientFormatter.cs" />
     <Compile Include="Formatter\NewtonsoftJsonDispatchFormatter.cs" />
     <Compile Include="Formatter\RawBodyWriter.cs" />
-    <Compile Include="LoadBalance\AbstractLoadBalance.cs" />
-    <Compile Include="LoadBalance\RandomLoadBalance.cs" />
-    <Compile Include="Referer\ClientFactory.cs" />
+    <Compile Include="Client\ClientFactory.cs" />
     <Compile Include="ConfigFactory\ConfigHelper.cs" />
     <Compile Include="ConfigFactory\RefererElement.cs" />
     <Compile Include="ConfigFactory\ClassElement.cs" />
@@ -76,13 +74,14 @@
     <Compile Include="ConfigFactory\ServicesHandler.cs" />
     <Compile Include="Behavior\AttachMessageBehavior.cs" />
     <Compile Include="Behavior\MyEndpointBehavior.cs" />
+    <Compile Include="LoadBalance\AbstractLoadBalance.cs" />
+    <Compile Include="LoadBalance\RandomLoadBalance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Cluster\Referer.cs" />
-    <Compile Include="Referer\TheProxy.cs" />
+    <Compile Include="ConfigFactory\Referer.cs" />
+    <Compile Include="Client\TheProxy.cs" />
     <Compile Include="Service\ServiceFactory.cs" />
-    <Compile Include="Referer\ServiceRealProxy.cs" />
+    <Compile Include="Client\ServiceRealProxy.cs" />
     <Compile Include="Service\ServiceUtils.cs" />
-    <Compile Include="Utilst.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

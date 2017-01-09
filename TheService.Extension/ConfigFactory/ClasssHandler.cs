@@ -12,7 +12,7 @@ namespace TheService.Extension.ConfigFactory
     {
         public object Create(object parent, object configContext, System.Xml.XmlNode section)
         {
-            List<ClassElement> listClasss = new List<ClassElement>();
+            List<ClassElement> classElements = new List<ClassElement>();
             XmlDocument doc = ConfigHelper.CreateXmlDoc(section.InnerXml);
             foreach (XmlNode classNode in doc.FirstChild.ChildNodes)
             {
@@ -31,9 +31,9 @@ namespace TheService.Extension.ConfigFactory
                 {
                     throw new Exception(errorMessage);
                 }
-                listClasss.Add(classElement);
+                classElements.Add(classElement);
             }
-            return listClasss;
+            return classElements;
         }
     }
 }

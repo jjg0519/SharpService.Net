@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TheService.Extension
+namespace TheService.Common
 {
-    public class Utility
+    public class HttpHelper
     {
-        public static void UrlCheck(string strUrl)
+        public static Uri GetUri(string strUrl)
         {
             try
             {
-                new Uri(strUrl);
+                return new Uri(strUrl);
             }
             catch (Exception)
             {

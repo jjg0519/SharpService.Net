@@ -13,7 +13,7 @@ namespace TheService.Extension.ConfigFactory
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
-            List<ServiceElement> listServices = new List<ServiceElement>();
+            List<ServiceElement> serviceElements = new List<ServiceElement>();
             XmlDocument doc = ConfigHelper.CreateXmlDoc(section.InnerXml);
             foreach (XmlNode serviceNode in doc.FirstChild.ChildNodes)
             {
@@ -32,18 +32,17 @@ namespace TheService.Extension.ConfigFactory
                 {
                     throw new Exception(" the address of the service address cannot be empty");
                 }
-                if (listServices.Exists(e => e.Address == serviceElement.Address))
+                if (serviceElements.Exists(e => e.Address == serviceElement.Address))
                 {
                     throw new Exception(" the address of the service address cannot be same");
                 }
-                Utility.UrlCheck(serviceElement.Address);
                 if (!ValidateHelper.ValidateEntity(serviceElement, out errorMessage))
                 {
                     throw new Exception(errorMessage);
                 }
-                listServices.Add(serviceElement);
+                serviceElements.Add(serviceElement);
             }
-            return listServices;       
+            return serviceElements;       
         }
     }
 }

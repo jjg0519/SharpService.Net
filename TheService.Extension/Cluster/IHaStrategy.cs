@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TheService.Extension.Cluster
+namespace TheService.Extension.ConfigFactory
 {
     public interface IHAStrategy
     {

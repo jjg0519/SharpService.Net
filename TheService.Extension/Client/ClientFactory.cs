@@ -7,22 +7,22 @@ using System.ServiceModel;
 using System.Text;
 using TheService.Extension.Behavior;
 
-namespace TheService.Extension.Referer
+namespace TheService.Extension.Client
 {
     public class ClientFactory
     {
         private static string refererConfig = "serviceGroup/refererConfig";
-        private static List<RefererElement> referers = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
+        private static List<RefererElement> refererElements = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
 
         public static ChannelFactory<IObjcet> CreateChannelFactory<IObjcet>(string id, Dictionary<string, string> messages = null)
         {
-            var referer = referers.FirstOrDefault(x => x.Id == id);
-            if (referer == null)
+            var refererElement = refererElements.FirstOrDefault(x => x.Id == id);
+            if (refererElement == null)
             {
                 throw new Exception("can not find referer config");
             }
-            var binding = ConfigHelper.CreateBinding(referer.Binding, (SecurityMode)referer.Security);
-            var endpoint = new EndpointAddress(referer.Addresss[0]);
+            var binding = ConfigHelper.CreateBinding(refererElement.Referers[0].Binding, (SecurityMode)refererElement.Referers[0].Security);
+            var endpoint = new EndpointAddress(refererElement.Referers[0].Address);
             var factory = new ChannelFactory<IObjcet>(binding, endpoint);
             factory.Endpoint.Behaviors.Add(new MyEndpointBehavior(messages));
             return factory;

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Remoting.Messaging;
 
-namespace TheService.Extension.Cluster
+namespace TheService.Extension.ConfigFactory
 {
     public class Request
     {

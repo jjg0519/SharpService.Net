@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using TheService.Extension.ConfigFactory;
 
-namespace TheService.Extension.Cluster
+namespace TheService.Extension.ConfigFactory
 {
     public interface ILoadBalance
     {
