@@ -1,18 +1,11 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
-
-
 
 namespace TheService.Utilities
 {
 
-    public class FileHelper
+    public class FileUtil
     {
         public static string GetAbsolutePath(string relativePath)
         {

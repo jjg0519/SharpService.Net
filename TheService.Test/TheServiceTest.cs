@@ -24,9 +24,9 @@ namespace ThService.Test
         public void TestHelloService()
         {
             ServiceFactory.Start();
-            var client = (IHelloService)new ServiceRealProxy<IHelloService>("helloService", new Dictionary<string, string>() { { "test", "sdfsfdsdfsfd" } }).GetTransparentProxy();
+            var client = TheProxy.TheServiceProxy<IHelloService>("helloService");
             Console.WriteLine(client.GetMessage("test"));
-            Console.WriteLine(client.GetMessage1(new Person { PerName="test"}).PerName);
+            Console.WriteLine(client.GetMessage1(new Person { PerName = "testName" }).PerName);
             ServiceFactory.Stop();
         }
     }

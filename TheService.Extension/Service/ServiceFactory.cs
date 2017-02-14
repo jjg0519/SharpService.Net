@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using TheService.Utilities;
 using ProtoBuf.ServiceModel;
+using TheService.Extension.Behavior;
 
 namespace TheService.Extension
 {
@@ -27,7 +28,6 @@ namespace TheService.Extension
         public static bool Start()
         {
             int serviceCount = 0;
-            #region InitService
             if (services != null)
             {
                 foreach (ServiceElement serviceElement in services)
@@ -42,7 +42,7 @@ namespace TheService.Extension
                     Type serviceType = null;
                     if (!string.IsNullOrEmpty(referenceElement.Assembly))
                     {
-                        Assembly assembly = Assembly.LoadFrom(FileHelper.GetAbsolutePath(string.Format("{0}.dll", referenceElement.Assembly)));
+                        Assembly assembly = Assembly.LoadFrom(FileUtil.GetAbsolutePath(string.Format("{0}.dll", referenceElement.Assembly)));
                         serviceType = assembly.GetType(referenceElement.Type);
                     }
                     else
@@ -57,7 +57,7 @@ namespace TheService.Extension
                     Type implementedContract = null;
                     if (!string.IsNullOrEmpty(serviceElement.Assembly))
                     {
-                        Assembly assembly = Assembly.LoadFrom(FileHelper.GetAbsolutePath(string.Format("{0}.dll", serviceElement.Assembly)));
+                        Assembly assembly = Assembly.LoadFrom(FileUtil.GetAbsolutePath(string.Format("{0}.dll", serviceElement.Assembly)));
                         implementedContract = assembly.GetType(serviceElement.Interface);
                     }
                     else
@@ -94,7 +94,6 @@ namespace TheService.Extension
                         host.Open();
                 }
             }
-            #endregion
             resetEvent.WaitOne();
             return true;
         }

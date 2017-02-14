@@ -8,7 +8,7 @@ using System.Text;
 
 namespace TheService.Extension.Client
 {
-    public class ServiceRealProxy<IObjcet> : RealProxy
+    internal class ServiceRealProxy<IObjcet> : RealProxy
     {
        
         private string id;

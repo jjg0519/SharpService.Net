@@ -8,8 +8,7 @@ namespace ServiceTestLib
 
         public string GetMessage(string name)
         {
-            var msg = ServiceUtils.GetHeaderValue("test");
-            return "Hello " + name + msg;
+            return "Hello " + name;
         }
 
         public Person GetMessage1(Person person)

@@ -1,5 +1,4 @@
-﻿using ProtoBuf.ServiceModel;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -7,7 +6,7 @@ using System.ServiceModel.Dispatcher;
 
 namespace TheService.Extension.Behavior
 {
-    public class AttachMessageBehavior : ProtoEndpointBehavior, IClientMessageInspector
+    public class AttachMessageBehavior : IClientMessageInspector
     {
         private Dictionary<string, string> messages { set; get; }
 
@@ -30,13 +29,13 @@ namespace TheService.Extension.Behavior
             {
                 foreach (var key in messages.Keys)
                 {
-                    MessageHeader userNameHeader = MessageHeader.CreateHeader(key, "http://tempuri.org", messages[key], false, "");
-                    request.Headers.Add(userNameHeader);
+                    MessageHeader header = MessageHeader.CreateHeader(key, "http://tempuri.org", messages[key], false, "");
+                    request.Headers.Add(header);
                 }
             }
-            Console.WriteLine(request);
             return null;
         }
+
         #endregion
     }
 }

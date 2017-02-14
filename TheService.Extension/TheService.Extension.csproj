@@ -45,6 +45,10 @@
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Polly, Version=5.0.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Polly.5.0.6\lib\net45\Polly.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
       <Private>True</Private>
@@ -90,9 +94,9 @@
     <Compile Include="Service\ServiceFactory.cs" />
     <Compile Include="Client\ServiceRealProxy.cs" />
     <Compile Include="Service\ServiceUtils.cs" />
-    <Compile Include="Utilities\FileHelper.cs" />
-    <Compile Include="Utilities\HttpHelper.cs" />
-    <Compile Include="Utilities\ValidateHelper.cs" />
+    <Compile Include="Utilities\FileUtil.cs" />
+    <Compile Include="Utilities\HttpUtil.cs" />
+    <Compile Include="Utilities\ValidateUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

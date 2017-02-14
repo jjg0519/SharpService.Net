@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace TheService.Utilities
 {
-    public class HttpHelper
+    public class HttpUtil
     {
         public static Uri GetUri(string strUrl)
         {

@@ -4,9 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.ServiceModel;
-using System.Text;
 using ProtoBuf.ServiceModel;
-using TheService.Extension.Behavior;
 
 namespace TheService.Extension.Client
 {
@@ -25,7 +23,7 @@ namespace TheService.Extension.Client
             var binding = ConfigHelper.CreateBinding(refererElement.Referers[0].Binding, (SecurityMode)refererElement.Referers[0].Security);
             var endpoint = new EndpointAddress(refererElement.Referers[0].Address);
             var factory = new ChannelFactory<IObjcet>(binding, endpoint);
-            factory.Endpoint.Behaviors.Add(new AttachMessageBehavior(messages));
+            factory.Endpoint.Behaviors.Add(new ProtoEndpointBehavior());
             return factory;
         }
     }

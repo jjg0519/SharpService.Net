@@ -44,12 +44,12 @@ namespace TheService.Extension.ConfigFactory
                     {
                         throw new Exception(" the address of the service address cannot be empty");
                     }
-                    Uri uri = HttpHelper.GetUri(_ref.Address);
+                    Uri uri = HttpUtil.GetUri(_ref.Address);
                     _ref.Host = uri.Host;
                     _ref.Port = uri.Port;
                     refererElement.Referers.Add(_ref);               
                 }
-                if (!ValidateHelper.ValidateEntity(refererElement, out errorMessage))
+                if (!ValidateUtil.ValidateEntity(refererElement, out errorMessage))
                 {
                     throw new Exception(errorMessage);
                 }

@@ -36,7 +36,7 @@ namespace TheService.Extension.ConfigFactory
                 {
                     throw new Exception(" the address of the service address cannot be same");
                 }
-                if (!ValidateHelper.ValidateEntity(serviceElement, out errorMessage))
+                if (!ValidateUtil.ValidateEntity(serviceElement, out errorMessage))
                 {
                     throw new Exception(errorMessage);
                 }

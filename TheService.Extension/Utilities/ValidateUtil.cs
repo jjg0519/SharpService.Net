@@ -6,7 +6,7 @@ using System.Text;
 
 namespace TheService.Utilities
 {
-    public static class ValidateHelper
+    public static class ValidateUtil
     {
         public static bool ValidateEntity<T>(T model, out string msg)
         {

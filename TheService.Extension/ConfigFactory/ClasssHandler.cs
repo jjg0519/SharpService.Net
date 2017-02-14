@@ -27,7 +27,7 @@ namespace TheService.Extension.ConfigFactory
                         classPropertie.SetValue(classElement, Convert.ChangeType(attr.Value, classPropertie.PropertyType), null);
                     }
                 }
-                if (!ValidateHelper.ValidateEntity(classElement, out errorMessage))
+                if (!ValidateUtil.ValidateEntity(classElement, out errorMessage))
                 {
                     throw new Exception(errorMessage);
                 }
