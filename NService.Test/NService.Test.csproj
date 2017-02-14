@@ -60,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NService.Core\NService.Core.csproj">
+    <ProjectReference Include="..\NService\NService.csproj">
       <Project>{7d938c69-3d7d-4c73-a45e-beac5ca4f00d}</Project>
-      <Name>NService.Core</Name>
+      <Name>NService</Name>
     </ProjectReference>
     <ProjectReference Include="..\ServiceTestLib\ServiceTestLib.csproj">
       <Project>{4cf899db-84c2-481b-a9e8-596f03bc07fd}</Project>
