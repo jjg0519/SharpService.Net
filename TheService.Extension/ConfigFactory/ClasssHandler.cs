@@ -4,7 +4,7 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using TheService.Common;
+using TheService.Utilities;
 
 namespace TheService.Extension.ConfigFactory
 {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Xml;
 using System.Linq;
-using TheService.Common;
+using TheService.Utilities;
 
 namespace TheService.Extension.ConfigFactory
 {

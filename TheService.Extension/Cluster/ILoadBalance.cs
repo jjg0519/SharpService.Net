@@ -8,7 +8,7 @@ namespace TheService.Extension.ConfigFactory
 {
     public interface ILoadBalance
     {
-        void OnRefresh(RefererElement referer);
+        //void OnRefresh(RefererElement referer);
 
         Referer Select(Request request);
 

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.ServiceModel.Channels;
-using System.Text;
-using System.Web;
+﻿using ProtoBuf;
 using TheService.Extension.Service;
 
 namespace ServiceTestLib
@@ -18,21 +12,17 @@ namespace ServiceTestLib
             return "Hello " + name + msg;
         }
 
-        public Person GetMessage1(Person person, Student student)
+        public Person GetMessage1(Person person)
         {
             person.PerName = "TestName";
             return person;
         }
     }
 
+    [ProtoContract]
     public class Person
     {
+        [ProtoMember(1)]
         public string PerName { set; get; }
     }
-
-    public class Student
-    {
-        public string StuName { set; get; }
-    }
-
 }

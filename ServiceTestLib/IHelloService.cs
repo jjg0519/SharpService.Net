@@ -13,6 +13,6 @@ namespace ServiceTestLib
         string GetMessage(string name);
 
         [OperationContract]
-        Person GetMessage1(Person person, Student student);
+        Person GetMessage1(Person person);
     }
 }

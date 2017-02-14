@@ -5,10 +5,10 @@ using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
-using System.ServiceModel.Description;
 using System.Text;
-using TheService.Common;
 using System.Threading;
+using TheService.Utilities;
+using ProtoBuf.ServiceModel;
 
 namespace TheService.Extension
 {
@@ -69,7 +69,12 @@ namespace TheService.Extension
                         throw new Exception(string.Format("implementedContract can not find type {0} assembly {1} !", serviceElement.Interface, serviceElement.Assembly));
                     }
 
-                    host.AddServiceEndpoint(implementedContract, ConfigFactory.ConfigHelper.CreateBinding(serviceElement.Binding, (SecurityMode)serviceElement.Security), new Uri(serviceElement.Address));
+                    var endpoint = host.AddServiceEndpoint(
+                          implementedContract,
+                          ConfigHelper.CreateBinding(serviceElement.Binding,
+                          (SecurityMode)serviceElement.Security),
+                          new Uri(serviceElement.Address));
+                    endpoint.Behaviors.Add(new ProtoEndpointBehavior());
                     //if (host.Description.Behaviors.Find<ServiceMetadataBehavior>() == null)
                     //{
                     //    ServiceMetadataBehavior behavior = new ServiceMetadataBehavior();

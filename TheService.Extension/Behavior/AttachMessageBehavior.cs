@@ -1,15 +1,13 @@
-﻿using System;
+﻿using ProtoBuf.ServiceModel;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
-using System.Text;
 
 namespace TheService.Extension.Behavior
 {
-    public class AttachMessageBehavior : IClientMessageInspector
+    public class AttachMessageBehavior : ProtoEndpointBehavior, IClientMessageInspector
     {
         private Dictionary<string, string> messages { set; get; }
 
@@ -39,7 +37,6 @@ namespace TheService.Extension.Behavior
             Console.WriteLine(request);
             return null;
         }
-
         #endregion
     }
 }

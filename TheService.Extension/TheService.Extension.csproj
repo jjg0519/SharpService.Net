@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TheService.Extension</RootNamespace>
     <AssemblyName>TheService.Extension</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -28,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
@@ -40,6 +43,10 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -61,9 +68,11 @@
     <Compile Include="Cluster\ILoadBalance.cs" />
     <Compile Include="Cluster\Request.cs" />
     <Compile Include="Cluster\Response.cs" />
-    <Compile Include="Formatter\NewtonsoftJsonClientFormatter.cs" />
-    <Compile Include="Formatter\NewtonsoftJsonDispatchFormatter.cs" />
-    <Compile Include="Formatter\RawBodyWriter.cs" />
+    <Compile Include="Extensions\ConcurrentDictionaryExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\IEnumerableExtensions.cs" />
+    <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Client\ClientFactory.cs" />
     <Compile Include="ConfigFactory\ConfigHelper.cs" />
     <Compile Include="ConfigFactory\RefererElement.cs" />
@@ -73,7 +82,6 @@
     <Compile Include="ConfigFactory\ClasssHandler.cs" />
     <Compile Include="ConfigFactory\ServicesHandler.cs" />
     <Compile Include="Behavior\AttachMessageBehavior.cs" />
-    <Compile Include="Behavior\MyEndpointBehavior.cs" />
     <Compile Include="LoadBalance\AbstractLoadBalance.cs" />
     <Compile Include="LoadBalance\RandomLoadBalance.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,6 +90,9 @@
     <Compile Include="Service\ServiceFactory.cs" />
     <Compile Include="Client\ServiceRealProxy.cs" />
     <Compile Include="Service\ServiceUtils.cs" />
+    <Compile Include="Utilities\FileHelper.cs" />
+    <Compile Include="Utilities\HttpHelper.cs" />
+    <Compile Include="Utilities\ValidateHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -90,12 +101,6 @@
   <ItemGroup>
     <Folder Include="HA\" />
     <Folder Include="Registry\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\TheService.Common\TheService.Common.csproj">
-      <Project>{61c31372-bc26-4a0a-a721-74a1f3f2464a}</Project>
-      <Name>TheService.Common</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TheService.Test</RootNamespace>
     <AssemblyName>TheService.Test</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
   </PropertyGroup>
@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -61,10 +63,6 @@
     <ProjectReference Include="..\ServiceTestLib\ServiceTestLib.csproj">
       <Project>{4cf899db-84c2-481b-a9e8-596f03bc07fd}</Project>
       <Name>ServiceTestLib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TheService.Common\TheService.Common.csproj">
-      <Project>{61c31372-bc26-4a0a-a721-74a1f3f2464a}</Project>
-      <Name>TheService.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\TheService.Extension\TheService.Extension.csproj">
       <Project>{7d938c69-3d7d-4c73-a45e-beac5ca4f00d}</Project>
