@@ -70,8 +70,7 @@
   <ItemGroup>
     <Compile Include="Cluster\IHaStrategy.cs" />
     <Compile Include="Cluster\ILoadBalance.cs" />
-    <Compile Include="Cluster\Request.cs" />
-    <Compile Include="Cluster\Response.cs" />
+    <Compile Include="Requester\RequestRealProxy.cs" />
     <Compile Include="Extensions\ConcurrentDictionaryExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
@@ -92,7 +91,6 @@
     <Compile Include="ConfigFactory\Referer.cs" />
     <Compile Include="Client\TheProxy.cs" />
     <Compile Include="Service\ServiceFactory.cs" />
-    <Compile Include="Client\ServiceRealProxy.cs" />
     <Compile Include="Service\ServiceUtils.cs" />
     <Compile Include="Utilities\FileUtil.cs" />
     <Compile Include="Utilities\HttpUtil.cs" />

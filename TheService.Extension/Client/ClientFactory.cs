@@ -13,7 +13,7 @@ namespace TheService.Extension.Client
         private static string refererConfig = "serviceGroup/refererConfig";
         private static List<RefererElement> refererElements = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
 
-        public static ChannelFactory<IObjcet> CreateChannelFactory<IObjcet>(string id, Dictionary<string, string> messages = null)
+        public static ChannelFactory<IObjcet> CreateChannelFactory<IObjcet>(string id)
         {
             var refererElement = refererElements.FirstOrDefault(x => x.Id == id);
             if (refererElement == null)
