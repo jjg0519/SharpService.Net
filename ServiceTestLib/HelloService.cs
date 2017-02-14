@@ -1,5 +1,4 @@
 ﻿using ProtoBuf;
-using TheService.Extension.Service;
 
 namespace ServiceTestLib
 {
