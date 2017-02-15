@@ -104,7 +104,7 @@ namespace NService.Factory
             return true;
         }
 
-        public static void Stop()
+        public static void Cancel()
         {
             foreach (ServiceHost host in hosts)
             {

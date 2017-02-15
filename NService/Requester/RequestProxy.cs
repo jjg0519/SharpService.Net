@@ -17,7 +17,7 @@
             return this;
         }
 
-        public Interface BuilderProxy<Interface>()
+        public Interface BuilderClient<Interface>()
         {
             return (Interface)new RequestRealProxy<Interface>(id, requesterHandler).GetTransparentProxy();
         }

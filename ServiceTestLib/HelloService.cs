@@ -1,22 +1,36 @@
-﻿using ProtoBuf;
+﻿using System;
+using ProtoBuf;
+using System.Threading;
 
 namespace ServiceTestLib
 {
     public class HelloService : IHelloService
     {
-        public string GetMessage(string message)
+        public string SendMessage(string message)
         {
             return message;
         }
 
-        public Person GetPerson(Person person)
+        public Data SendData(Data data)
         {
-            return person;
+            return data;
+        }
+
+        public void Error()
+        {
+            throw new Exception("Error");
+        }
+
+        public void OK() { }
+
+        public void TimeOut()
+        {
+            Thread.Sleep(TimeSpan.FromMinutes(1.5));
         }
     }
 
     [ProtoContract]
-    public class Person
+    public class Data
     {
         [ProtoMember(1)]
         public string Name { set; get; }

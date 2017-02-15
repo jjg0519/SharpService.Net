@@ -7,7 +7,7 @@ namespace NService.Requester
 {
     public class DelegatingHandler : IRequesterHandler
     {
-        public virtual IMessage Invoke<Interface>(IMessage msg, string id)
+        public virtual IMessage Invoke<Interface>(IMessage msg, string id, bool throwex = false)
         {
             IMethodReturnMessage methodReturn = null;
             IMethodCallMessage methodCall = (IMethodCallMessage)msg;
@@ -21,22 +21,19 @@ namespace NService.Requester
                 object returnValue = methodCall.MethodBase.Invoke(channel, copiedArgs);
                 methodReturn = new ReturnMessage(returnValue, copiedArgs, copiedArgs.Length, methodCall.LogicalCallContext, methodCall);
             }
-            catch (CommunicationException ex)
-            {
-                var exception = ex;
-                methodReturn = new ReturnMessage(exception, methodCall);
-            }
-            catch (TimeoutException ex)
-            {
-                var exception = ex;
-                methodReturn = new ReturnMessage(exception, methodCall);
-            }
             catch (Exception ex)
             {
                 var exception = ex;
                 if (ex.InnerException != null)
                     exception = ex.InnerException;
-                methodReturn = new ReturnMessage(new RequestException(exception.Message, exception), methodCall);
+                if (!throwex)
+                {
+                    methodReturn = new ReturnMessage(new RequestException(exception.Message, exception), methodCall);
+                }
+                else
+                {
+                    throw new RequestException(exception.Message, exception);
+                }
             }
             finally
             {

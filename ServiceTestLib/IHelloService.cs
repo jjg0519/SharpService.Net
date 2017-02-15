@@ -5,11 +5,20 @@ namespace ServiceTestLib
 
     [ServiceContract]
     public interface IHelloService
-    {     
+    {
         [OperationContract]
-        string GetMessage(string message);
+        void Error();
 
         [OperationContract]
-        Person GetPerson(Person person);
+        void OK();
+
+        [OperationContract]
+        void TimeOut();
+
+        [OperationContract]
+        string SendMessage(string message);
+
+        [OperationContract]
+        Data SendData(Data person);
     }
 }
