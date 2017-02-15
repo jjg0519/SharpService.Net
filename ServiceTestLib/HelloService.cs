@@ -4,15 +4,13 @@ namespace ServiceTestLib
 {
     public class HelloService : IHelloService
     {
-
-        public string GetMessage(string name)
+        public string GetMessage(string message)
         {
-            return "Hello " + name;
+            return message;
         }
 
-        public Person GetMessage1(Person person)
+        public Person GetPerson(Person person)
         {
-            person.PerName = "TestName";
             return person;
         }
     }
@@ -21,6 +19,6 @@ namespace ServiceTestLib
     public class Person
     {
         [ProtoMember(1)]
-        public string PerName { set; get; }
+        public string Name { set; get; }
     }
 }

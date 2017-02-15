@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.ServiceModel;
-using System.Text;
+﻿using System.ServiceModel;
 
 namespace ServiceTestLib
 {
+
     [ServiceContract]
     public interface IHelloService
-    {
+    {     
         [OperationContract]
-        string GetMessage(string name);
+        string GetMessage(string message);
 
         [OperationContract]
-        Person GetMessage1(Person person);
+        Person GetPerson(Person person);
     }
 }

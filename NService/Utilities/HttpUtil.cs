@@ -10,7 +10,7 @@ namespace NService.Utilities
             {
                 return new Uri(strUrl);
             }
-            catch (Exception)
+            catch
             {
                 throw new Exception($"{strUrl}非有效地址");
             }

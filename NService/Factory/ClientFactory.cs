@@ -13,7 +13,7 @@ namespace NService.Factory
         private static string refererConfig = "serviceGroup/refererConfig";
         private static List<RefererElement> refererElements = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
 
-        public static ChannelFactory<IObjcet> CreateChannelFactory<IObjcet>(string id)
+        public static ChannelFactory<Interface> CreateChannelFactory<Interface>(string id)
         {
             var refererElement = refererElements.FirstOrDefault(x => x.Id == id);
             if (refererElement == null)
@@ -22,7 +22,7 @@ namespace NService.Factory
             }
             var binding = ConfigHelper.CreateBinding(refererElement.Referers[0].Binding, (SecurityMode)refererElement.Referers[0].Security);
             var endpoint = new EndpointAddress(refererElement.Referers[0].Address);
-            var factory = new ChannelFactory<IObjcet>(binding, endpoint);
+            var factory = new ChannelFactory<Interface>(binding, endpoint);
             factory.Endpoint.Behaviors.Add(new ProtoEndpointBehavior());
             return factory;
         }

@@ -68,10 +68,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behavior\ErrorServiceBehavior.cs" />
     <Compile Include="Logging\INServiceLogger.cs" />
     <Compile Include="Requester\DelegatingHandler.cs" />
+    <Compile Include="Behavior\ErrorHandler.cs" />
     <Compile Include="Requester\IRequesterHandler.cs" />
     <Compile Include="Requester\PollyCircuitBreakingDelegatingHandler.cs" />
+    <Compile Include="Requester\RequestException.cs" />
     <Compile Include="Requester\RequestProxy.cs" />
     <Compile Include="Requester\RequestRealProxy.cs" />
     <Compile Include="Extensions\ConcurrentDictionaryExtensions.cs" />

@@ -3,12 +3,12 @@ using System.Runtime.Remoting.Proxies;
 
 namespace NService.Requester
 {
-    public class RequestRealProxy<T> : RealProxy
+    public class RequestRealProxy<Interface> : RealProxy
     {
         private IRequesterHandler requesterHandler { set; get; }
         private string id { set; get; }
 
-        public RequestRealProxy(string id, IRequesterHandler requesterHandler) : base(typeof(T))
+        public RequestRealProxy(string id, IRequesterHandler requesterHandler) : base(typeof(Interface))
         {
             this.id = id;
             this.requesterHandler = requesterHandler;
@@ -16,7 +16,7 @@ namespace NService.Requester
 
         public override IMessage Invoke(IMessage msg)
         {
-            return requesterHandler.Invoke<T>(msg, id);
+            return requesterHandler.Invoke<Interface>(msg, id);
         }
     }
 }

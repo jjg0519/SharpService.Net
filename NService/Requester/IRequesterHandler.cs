@@ -4,6 +4,6 @@ namespace NService.Requester
 {
     public interface IRequesterHandler
     {
-        IMessage Invoke<T>(IMessage msg, string id);
+        IMessage Invoke<Interface>(IMessage msg, string id);
     }
 }

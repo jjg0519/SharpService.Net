@@ -9,6 +9,8 @@ using System.Threading;
 using ProtoBuf.ServiceModel;
 using NService.Utilities;
 using NService.Configuration;
+using System.ServiceModel.Description;
+using NService.Behavior;
 
 namespace NService.Factory
 {
@@ -24,7 +26,7 @@ namespace NService.Factory
 
         private static AutoResetEvent resetEvent = new AutoResetEvent(false);
 
-        public static bool Start()
+        public static bool Provider()
         {
             int serviceCount = 0;
             if (services != null)
@@ -70,16 +72,21 @@ namespace NService.Factory
 
                     var endpoint = host.AddServiceEndpoint(
                           implementedContract,
-                          ConfigHelper.CreateBinding(serviceElement.Binding,
-                          (SecurityMode)serviceElement.Security),
+                          ConfigHelper.CreateBinding(serviceElement.Binding,  (SecurityMode)serviceElement.Security),
                           new Uri(serviceElement.Address));
                     endpoint.Behaviors.Add(new ProtoEndpointBehavior());
-                    //if (host.Description.Behaviors.Find<ServiceMetadataBehavior>() == null)
-                    //{
-                    //    ServiceMetadataBehavior behavior = new ServiceMetadataBehavior();
-                    //    behavior.HttpGetEnabled = true;
-                    //    host.Description.Behaviors.Add(behavior);
-                    //}
+                    if (host.Description.Behaviors.Find<ServiceMetadataBehavior>() == null)
+                    {
+                        ServiceMetadataBehavior behavior = new ServiceMetadataBehavior();
+                        behavior.HttpGetEnabled = serviceElement.Binding.Contains("http") ? true : false;
+                        behavior.HttpGetUrl = serviceElement.Binding.Contains("http") ? new Uri(host.Description.Endpoints[0].Address.Uri.ToString() + "/mex") : null;
+                        host.Description.Behaviors.Add(behavior);
+                    }
+                    if (host.Description.Behaviors.Find<ErrorServiceBehavior>() == null)
+                    {
+                        ErrorServiceBehavior behavior = new ErrorServiceBehavior();
+                        host.Description.Behaviors.Add(behavior);
+                    }
                     hosts.Add(host);
                     host.Opened += (sender, o) =>
                     {
