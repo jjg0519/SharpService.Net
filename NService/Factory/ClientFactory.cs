@@ -18,7 +18,7 @@ namespace NService.Factory
             var refererElement = refererElements.FirstOrDefault(x => x.Id == id);
             if (refererElement == null)
             {
-                throw new Exception("can not find referer config");
+                throw new ArgumentNullException("can not find referer config");
             }
             var binding = ConfigHelper.CreateBinding(refererElement.Referers[0].Binding, (SecurityMode)refererElement.Referers[0].Security);
             var endpoint = new EndpointAddress(refererElement.Referers[0].Address);

@@ -25,7 +25,7 @@ namespace ServiceTestLib
 
         public void TimeOut()
         {
-            Thread.Sleep(TimeSpan.FromMinutes(1.5));
+            Thread.Sleep(TimeSpan.FromSeconds(60));
         }
     }
 
@@ -33,6 +33,6 @@ namespace ServiceTestLib
     public class Data
     {
         [ProtoMember(1)]
-        public string Name { set; get; }
+        public string Message { set; get; }
     }
 }

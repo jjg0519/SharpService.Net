@@ -83,6 +83,10 @@ namespace NService.Requester
             {
                 return new ReturnMessage(ex, methodCall); ;
             }
+            catch (TimeoutRejectedException ex)
+            {
+                return new ReturnMessage(ex, methodCall); ;
+            }
             catch (Exception ex)
             {
                 return new ReturnMessage(ex, methodCall); ;

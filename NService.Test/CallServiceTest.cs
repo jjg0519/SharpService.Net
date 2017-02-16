@@ -8,12 +8,12 @@ using System.Threading;
 
 namespace NService.Test
 {
-    public class ServiceTest
+    public class CallServiceTest
     {
         [OneTimeSetUp]
         public void SetUp()
         {
-            ServiceFactory.Provider();
+            ServiceFactory.Builder();
         }
 
         [OneTimeTearDown]
@@ -38,7 +38,7 @@ namespace NService.Test
             var client = new RequestProxy()
                .UseId("helloService")
                .BuilderClient<IHelloService>();
-            Console.WriteLine(client.SendData(new Data { Name = "SendData" }).Name);
+            Console.WriteLine(client.SendData(new Data { Message = "SendData" }).Message);
         }
 
         [Test]
@@ -48,16 +48,16 @@ namespace NService.Test
                .ConfigurerRequester(
                 new PollyCircuitBreakingDelegatingHandler(
                     exceptionsAllowedBeforeBreaking: 2,
-                    durationOfBreak: TimeSpan.FromMinutes(1),
-                    timeoutValue: TimeSpan.FromMinutes(1),
-                    timeoutStrategy: TimeoutStrategy.Optimistic
+                    durationOfBreak: TimeSpan.FromSeconds(60),
+                    timeoutValue: TimeSpan.FromSeconds(30),
+                    timeoutStrategy: TimeoutStrategy.Pessimistic
                     )
                 );
             var client = proxy.UseId("helloService").BuilderClient<IHelloService>();
             try { client.Error(); } catch { }
             try { client.Error(); } catch { }
             try { client.OK(); } catch { }
-            Thread.Sleep(TimeSpan.FromMinutes(1));
+            Thread.Sleep(TimeSpan.FromSeconds(60));
             try { client.OK(); } catch { }
             try { client.TimeOut(); } catch { }
         }

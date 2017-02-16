@@ -28,7 +28,7 @@ namespace NService.Requester
                     exception = ex.InnerException;
                 if (!throwex)
                 {
-                    methodReturn = new ReturnMessage(new RequestException(exception.Message, exception), methodCall);
+                    methodReturn = new ReturnMessage(exception, methodCall);
                 }
                 else
                 {

@@ -56,10 +56,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CircuitBreakerTest.cs" />
+    <Compile Include="PollyTest.cs" />
     <Compile Include="ConfigurationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceTest.cs" />
+    <Compile Include="CallServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

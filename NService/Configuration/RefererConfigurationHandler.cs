@@ -42,7 +42,7 @@ namespace NService.Configuration
 
                     if (string.IsNullOrEmpty(_ref.Address))
                     {
-                        throw new Exception(" the address of the service address cannot be empty");
+                        throw new ArgumentNullException(" the address of the service address cannot be empty");
                     }
                     Uri uri = HttpUtil.GetUri(_ref.Address);
                     _ref.Host = uri.Host;

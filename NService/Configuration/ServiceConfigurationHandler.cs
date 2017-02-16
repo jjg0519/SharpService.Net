@@ -30,11 +30,11 @@ namespace NService.Configuration
                 }
                 if (string.IsNullOrEmpty(serviceElement.Address))
                 {
-                    throw new Exception(" the address of the service address cannot be empty");
+                    throw new ArgumentNullException(" the address of the service address cannot be empty");
                 }
                 if (serviceElements.Exists(e => e.Address == serviceElement.Address))
                 {
-                    throw new Exception(" the address of the service address cannot be same");
+                    throw new ArgumentNullException(" the address of the service address cannot be same");
                 }
                 if (!ValidateUtil.ValidateEntity(serviceElement, out errorMessage))
                 {

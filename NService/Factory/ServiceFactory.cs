@@ -18,15 +18,12 @@ namespace NService.Factory
     {
         private static string serviceConfig = "serviceGroup/serviceConfig";
         private static string classConfig = "serviceGroup/classConfig";
-
         private static List<ServiceHost> hosts = new List<ServiceHost>();
-
         private static List<ServiceElement> services = ConfigurationManager.GetSection(serviceConfig) as List<ServiceElement>;
         private static  List<ClassElement> classs = ConfigurationManager.GetSection(classConfig) as List<ClassElement>;
-
         private static AutoResetEvent resetEvent = new AutoResetEvent(false);
 
-        public static bool Provider()
+        public static bool Builder()
         {
             int serviceCount = 0;
             if (services != null)
@@ -38,7 +35,7 @@ namespace NService.Factory
                     ClassElement referenceElement = classs.FirstOrDefault(x => x.Id == serviceElement.Ref);
                     if (referenceElement == null)
                     {
-                        throw new Exception("referenceElement can not find !");
+                        throw new ArgumentNullException("referenceElement can not find !");
                     }
                     Type serviceType = null;
                     if (!string.IsNullOrEmpty(referenceElement.Assembly))
@@ -52,7 +49,7 @@ namespace NService.Factory
                     }
                     if (serviceType == null)
                     {
-                        throw new Exception(string.Format("serviceType can not find  type {0} assembly {1}  !", referenceElement.Type, referenceElement.Assembly));
+                        throw new ArgumentNullException(string.Format("serviceType can not find  type {0} assembly {1}  !", referenceElement.Type, referenceElement.Assembly));
                     }
                     ServiceHost host = new ServiceHost(serviceType);
                     Type implementedContract = null;
@@ -67,7 +64,7 @@ namespace NService.Factory
                     }
                     if (implementedContract == null)
                     {
-                        throw new Exception(string.Format("implementedContract can not find type {0} assembly {1} !", serviceElement.Interface, serviceElement.Assembly));
+                        throw new ArgumentNullException(string.Format("implementedContract can not find type {0} assembly {1} !", serviceElement.Interface, serviceElement.Assembly));
                     }
 
                     var endpoint = host.AddServiceEndpoint(
