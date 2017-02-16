@@ -1,0 +1,9 @@
+E:\Github\NService\ServiceTestLib\bin\Debug\ServiceTestLib.dll.config
+E:\Github\NService\ServiceTestLib\bin\Debug\ServiceTestLib.dll
+E:\Github\NService\ServiceTestLib\bin\Debug\ServiceTestLib.pdb
+E:\Github\NService\ServiceTestLib\bin\Debug\protobuf-net.dll
+E:\Github\NService\ServiceTestLib\bin\Debug\protobuf-net.pdb
+E:\Github\NService\ServiceTestLib\bin\Debug\protobuf-net.xml
+E:\Github\NService\ServiceTestLib\obj\Debug\ServiceTestLib.csprojResolveAssemblyReference.cache
+E:\Github\NService\ServiceTestLib\obj\Debug\ServiceTestLib.dll
+E:\Github\NService\ServiceTestLib\obj\Debug\ServiceTestLib.pdb
