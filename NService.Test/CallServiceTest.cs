@@ -5,6 +5,7 @@ using NService.Factory;
 using NService.Requester;
 using Polly.Timeout;
 using System.Threading;
+using NService.Logging;
 
 namespace NService.Test
 {
@@ -50,7 +51,8 @@ namespace NService.Test
                     exceptionsAllowedBeforeBreaking: 2,
                     durationOfBreak: TimeSpan.FromSeconds(60),
                     timeoutValue: TimeSpan.FromSeconds(30),
-                    timeoutStrategy: TimeoutStrategy.Pessimistic
+                    timeoutStrategy: TimeoutStrategy.Pessimistic,
+                    logger: new ExceptionlessLogger()
                     )
                 );
             var client = proxy.UseId("helloService").BuilderClient<IHelloService>();
