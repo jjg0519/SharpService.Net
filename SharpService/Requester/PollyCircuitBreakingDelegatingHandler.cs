@@ -22,8 +22,8 @@ namespace SharpService.Requester
             TimeoutStrategy timeoutStrategy, 
             INServiceLogger logger = null)
         {
-            this._exceptionsAllowedBeforeBreaking = exceptionsAllowedBeforeBreaking;
-            this._durationOfBreak = durationOfBreak;
+            _exceptionsAllowedBeforeBreaking = exceptionsAllowedBeforeBreaking;
+            _durationOfBreak = durationOfBreak;
 
             _circuitBreakerPolicy = Policy
                 .Handle<RequestException>()
@@ -75,6 +75,13 @@ namespace SharpService.Requester
 #endif
                 return new ReturnMessage(ex, methodCall);
             }
+            catch (TimeoutRejectedException ex)
+            {
+#if DEBUG
+                Console.WriteLine($"The delegate executed through TimeoutPolicy did not complete within the timeout.  {ex.Message}{ex.GetType()}");
+#endif
+                return new ReturnMessage(ex, methodCall); ;
+            }
             catch (RequestException ex)
             {
                 return new ReturnMessage(ex, methodCall); ;
@@ -82,11 +89,7 @@ namespace SharpService.Requester
             catch (AggregateException ex)
             {
                 return new ReturnMessage(ex, methodCall); ;
-            }
-            catch (TimeoutRejectedException ex)
-            {
-                return new ReturnMessage(ex, methodCall); ;
-            }
+            }        
             catch (Exception ex)
             {
                 return new ReturnMessage(ex, methodCall); ;

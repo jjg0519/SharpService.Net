@@ -13,12 +13,12 @@ namespace SharpService.Configuration
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
-            List<ServiceElement> serviceElements = new List<ServiceElement>();
-            XmlDocument doc = ConfigHelper.CreateXmlDoc(section.InnerXml);
+            var serviceElements = new List<ServiceElement>();
+            var doc = ConfigurationHelper.CreateXmlDoc(section.OuterXml);
             foreach (XmlNode serviceNode in doc.FirstChild.ChildNodes)
             {
-                string errorMessage = string.Empty;
-                ServiceElement serviceElement = new ServiceElement();
+                var errorMessage = string.Empty;
+                var serviceElement = new ServiceElement();
                 var serviceProperties = serviceElement.GetType().GetProperties();
                 foreach (var servicePropertie in serviceProperties)
                 {
@@ -26,12 +26,9 @@ namespace SharpService.Configuration
                     if (attr != null)
                     {
                         servicePropertie.SetValue(serviceElement, Convert.ChangeType(attr.Value, servicePropertie.PropertyType), null);
-                    }                 
+                    }
                 }
-                if (string.IsNullOrEmpty(serviceElement.Address))
-                {
-                    throw new ArgumentNullException(" the address of the service address cannot be empty");
-                }
+                serviceElement.Address = ConfigurationHelper.CreateAddress(serviceElement.Export, serviceElement.Binding);
                 if (serviceElements.Exists(e => e.Address == serviceElement.Address))
                 {
                     throw new ArgumentNullException(" the address of the service address cannot be same");
@@ -42,7 +39,7 @@ namespace SharpService.Configuration
                 }
                 serviceElements.Add(serviceElement);
             }
-            return serviceElements;       
+            return serviceElements;
         }
     }
 }

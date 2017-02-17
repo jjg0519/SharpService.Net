@@ -12,12 +12,12 @@ namespace SharpService.Configuration
     {
         public object Create(object parent, object configContext, System.Xml.XmlNode section)
         {
-            List<ClassElement> classElements = new List<ClassElement>();
-            XmlDocument doc = ConfigHelper.CreateXmlDoc(section.InnerXml);
+            var classElements = new List<ClassElement>();
+            var doc = ConfigurationHelper.CreateXmlDoc(section.OuterXml);
             foreach (XmlNode classNode in doc.FirstChild.ChildNodes)
             {
-                string errorMessage = string.Empty;
-                ClassElement classElement = new ClassElement();
+                var errorMessage = string.Empty;
+                var classElement = new ClassElement();
                 var classProperties = classElement.GetType().GetProperties();
                 foreach (var classPropertie in classProperties)
                 {

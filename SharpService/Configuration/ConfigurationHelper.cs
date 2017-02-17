@@ -10,9 +10,8 @@ using System.Xml;
 
 namespace SharpService.Configuration
 {
-    public class ConfigHelper
+    public class ConfigurationHelper
     {
-
         public static Binding CreateBinding(string binding, SecurityMode security)
         {
             Binding _binding = null;
@@ -126,14 +125,34 @@ namespace SharpService.Configuration
             return _binding;
         }
 
+        public static string CreateAddress(string export, string binding)
+        {
+            var args = export.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            switch (binding)
+            {
+                case "nettcp":
+                    return $"net.tcp://localhost:{args[0]}/{args[1]}";
+                case "basichttp":
+                    return $"http://localhost:{args[0]}/{args[1]}";
+                case "wshttp":
+                    return $"http://localhost:{args[0]}/{args[1]}";
+                case "netnamedpipe":
+                    return $"net.pipe://localhost:{args[0]}/{args[1]}";
+                case "netmsmq":
+                    return $"net.msmq://localhost:{args[0]}/{args[1]}";
+                default:
+                    return $"net.tcp://localhost:{args[0]}/{args[1]}";
+            }
+        }
+
         public static XmlDocument CreateXmlDoc(string innerXml)
         {
-            XmlDocument doc = new XmlDocument();
-            XmlReaderSettings settings = new XmlReaderSettings();
+            var doc = new XmlDocument();
+            var settings = new XmlReaderSettings();
             settings.IgnoreComments = true;
-            using (StringReader strRdr = new StringReader(innerXml))
+            using (var strRdr = new StringReader(innerXml))
             {
-                using (XmlReader reader = XmlReader.Create(strRdr, settings))
+                using (var reader = XmlReader.Create(strRdr, settings))
                 {
                     doc.Load(reader);
                 }

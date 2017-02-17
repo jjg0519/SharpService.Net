@@ -14,7 +14,7 @@ namespace SharpService.Requester
             Interface channel = default(Interface);
             try
             {
-                var factory = ClientFactory.CreateChannelFactory<Interface>(id);
+                var factory = WCFClientFactory.CreateChannelFactory<Interface>(id);
                 channel = factory.CreateChannel();
                 object[] copiedArgs = Array.CreateInstance(typeof(object), methodCall.Args.Length) as object[];
                 methodCall.Args.CopyTo(copiedArgs, 0);

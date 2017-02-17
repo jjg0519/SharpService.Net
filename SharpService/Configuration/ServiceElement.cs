@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Configuration;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SharpService.Configuration
 {
@@ -19,15 +13,16 @@ namespace SharpService.Configuration
         public string Assembly { get; set; }
 
         [Required]
-        public string Binding { get; set; }
+        public string Binding { get; set; } = "nettcp";
 
-        [DefaultValue(0)]
-        public int Security { get; set; }
+        public int Security { get; set; } = 0;
 
-        //[Required]
         public string Address { get; set; }
 
-        [DefaultValue(true)]
-        public bool Enable { get; set; }
+        public string Export { get; set; }
+
+        public string Version { get; set; }
+
+        public bool Enable { get; set; } = true;
     }
 }

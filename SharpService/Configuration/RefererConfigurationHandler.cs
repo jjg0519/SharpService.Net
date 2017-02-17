@@ -11,12 +11,12 @@ namespace SharpService.Configuration
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
-            List<RefererElement> refererElements = new List<RefererElement>();
-            XmlDocument doc = ConfigHelper.CreateXmlDoc(section.InnerXml);
+            var refererElements = new List<RefererElement>();
+            var doc = ConfigurationHelper.CreateXmlDoc(section.OuterXml);
             foreach (XmlNode refererNode in doc.FirstChild.ChildNodes)
             {
-                string errorMessage = string.Empty;
-                RefererElement refererElement = new RefererElement();
+                var errorMessage = string.Empty;
+                var refererElement = new RefererElement();
                 refererElement.Referers = new List<Referer>();
                 var refererProperties = refererElement.GetType().GetProperties();
                 foreach (var refererPropertie in refererProperties)
@@ -29,7 +29,7 @@ namespace SharpService.Configuration
                 }
                 foreach (XmlNode addressNode in refererNode.ChildNodes)
                 {
-                    Referer _ref = new Referer() { Interface = refererElement.Interface, Assembly = refererElement.Assembly };
+                    var _ref = new Referer() { Interface = refererElement.Interface, Assembly = refererElement.Assembly };
                     var refProperties = _ref.GetType().GetProperties();
                     foreach (var refPropertie in refProperties)
                     {
@@ -44,7 +44,7 @@ namespace SharpService.Configuration
                     {
                         throw new ArgumentNullException(" the address of the service address cannot be empty");
                     }
-                    Uri uri = HttpUtil.GetUri(_ref.Address);
+                    var uri = HttpUtil.GetUri(_ref.Address);
                     _ref.Host = uri.Host;
                     _ref.Port = uri.Port;
                     refererElement.Referers.Add(_ref);               

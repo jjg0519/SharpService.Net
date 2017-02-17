@@ -14,13 +14,13 @@ namespace SharpService.Test
         [OneTimeSetUp]
         public void SetUp()
         {
-            ServiceFactory.Builder();
+            new WCFServiceFactory().ProviderService().RegistryService();
         }
 
         [OneTimeTearDown]
         public void TearDown()
         {
-            ServiceFactory.Cancel();
+            new WCFServiceFactory().CloseService().CancelService();
         }
 
         [Test]

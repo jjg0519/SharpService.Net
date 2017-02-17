@@ -73,6 +73,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behavior\ErrorServiceBehavior.cs" />
+    <Compile Include="Configuration\RegistryElement.cs" />
+    <Compile Include="Configuration\RegistryConfigurationHandler.cs" />
+    <Compile Include="ServiceProvider\IServiceProvider.cs" />
     <Compile Include="Logging\INServiceLogger.cs" />
     <Compile Include="Requester\DelegatingHandler.cs" />
     <Compile Include="Behavior\ErrorHandler.cs" />
@@ -85,8 +88,8 @@
     <Compile Include="Extensions\IEnumerableExtensions.cs" />
     <Compile Include="Extensions\ReaderWriterLockSlimExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Factory\ClientFactory.cs" />
-    <Compile Include="Configuration\ConfigHelper.cs" />
+    <Compile Include="ServiceProvider\WCFClientFactory.cs" />
+    <Compile Include="Configuration\ConfigurationHelper.cs" />
     <Compile Include="Configuration\RefererElement.cs" />
     <Compile Include="Configuration\ClassElement.cs" />
     <Compile Include="Configuration\RefererConfigurationHandler.cs" />
@@ -95,7 +98,11 @@
     <Compile Include="Configuration\ServiceConfigurationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Configuration\Referer.cs" />
-    <Compile Include="Factory\ServiceFactory.cs" />
+    <Compile Include="ServiceProvider\WCFServiceProvider.cs" />
+    <Compile Include="ServiceDiscovery\ConsulDiscoveryProvider.cs" />
+    <Compile Include="ServiceDiscovery\InMemoryDiscoveryProvider.cs" />
+    <Compile Include="ServiceDiscovery\IServiceDiscoveryProvider.cs" />
+    <Compile Include="ServiceDiscovery\ZooKeeperDiscoveryProvider.cs" />
     <Compile Include="Utilities\FileUtil.cs" />
     <Compile Include="Utilities\HttpUtil.cs" />
     <Compile Include="Utilities\ValidateUtil.cs" />

@@ -8,9 +8,9 @@ using SharpService.Configuration;
 
 namespace SharpService.Factory
 {
-    public class ClientFactory
+    public class WCFClientFactory
     {
-        private static string refererConfig = "serviceGroup/refererConfig";
+        private const string refererConfig = "serviceGroup/refererConfig";
         private static List<RefererElement> refererElements = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
 
         public static ChannelFactory<Interface> CreateChannelFactory<Interface>(string id)
@@ -20,7 +20,7 @@ namespace SharpService.Factory
             {
                 throw new ArgumentNullException("can not find referer config");
             }
-            var binding = ConfigHelper.CreateBinding(refererElement.Referers[0].Binding, (SecurityMode)refererElement.Referers[0].Security);
+            var binding = ConfigurationHelper.CreateBinding(refererElement.Referers[0].Binding, (SecurityMode)refererElement.Referers[0].Security);
             var endpoint = new EndpointAddress(refererElement.Referers[0].Address);
             var factory = new ChannelFactory<Interface>(binding, endpoint);
             factory.Endpoint.Behaviors.Add(new ProtoEndpointBehavior());

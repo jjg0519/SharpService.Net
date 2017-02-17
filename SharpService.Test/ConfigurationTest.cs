@@ -10,22 +10,29 @@ namespace SharpService.Test
         [Test]
         public void TestRefererConfig()
         {
-            string refererConfig = "serviceGroup/refererConfig";
-            List<RefererElement> refererElements = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
+            var refererConfig = "serviceGroup/refererConfig";
+            var refererElements = ConfigurationManager.GetSection(refererConfig) as List<RefererElement>;
         }
 
         [Test]
         public void TestServiceConfig()
         {
-            string serviceConfig = "serviceGroup/serviceConfig";
-            List<ServiceElement> services = ConfigurationManager.GetSection(serviceConfig) as List<ServiceElement>;
+            var serviceConfig = "serviceGroup/serviceConfig";
+            var services = ConfigurationManager.GetSection(serviceConfig) as List<ServiceElement>;
         }
 
         [Test]
         public void TestClassConfig()
         {
-            string classConfig = "serviceGroup/classConfig";
-            List<ClassElement> classs = ConfigurationManager.GetSection(classConfig) as List<ClassElement>;
+            var classConfig = "serviceGroup/classConfig";
+            var classs = ConfigurationManager.GetSection(classConfig) as List<ClassElement>;
+        }
+
+        [Test]
+        public void TestRegistryConfig()
+        {
+            var registryConfig = "serviceGroup/registryConfig";
+            var registry = ConfigurationManager.GetSection(registryConfig) as RegistryElement;
         }
     }
 }
