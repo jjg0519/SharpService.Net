@@ -7,7 +7,7 @@ namespace SharpService.Requester
 {
     public class DelegatingHandler : IRequesterHandler
     {
-        public virtual IMessage Invoke<Interface>(IMessage msg, string id, bool throwex = false)
+        public virtual IMessage Handler<Interface>(IMessage msg, string id, bool throwex = false)
         {
             IMethodReturnMessage methodReturn = null;
             IMethodCallMessage methodCall = (IMethodCallMessage)msg;

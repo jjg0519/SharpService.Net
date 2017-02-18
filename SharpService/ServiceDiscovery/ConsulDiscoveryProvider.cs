@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpService.ServiceDiscovery
 {
-    class ConsulDiscoveryProvider: IServiceDiscoveryProvider
+    public class ConsulDiscoveryProvider : ServiceDiscoveryProvider
     {
     }
 }

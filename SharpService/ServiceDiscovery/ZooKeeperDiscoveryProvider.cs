@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SharpService.ServiceDiscovery
 {
-    class ZooKeeperDiscoveryProvider : IServiceDiscoveryProvider
+    public class ZooKeeperDiscoveryProvider : ServiceDiscoveryProvider
     {
     }
 }

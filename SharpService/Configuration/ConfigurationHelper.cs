@@ -69,40 +69,6 @@ namespace SharpService.Configuration
 #endif
                     };
                     break;
-                case "netnamedpipe":
-                    _binding = new NetNamedPipeBinding()
-                    {
-                        OpenTimeout = new TimeSpan(0, 1, 0),
-                        CloseTimeout = new TimeSpan(0, 1, 0),
-#if DEBUG
-                        SendTimeout = new TimeSpan(0, 18, 00),
-                        ReceiveTimeout = new TimeSpan(18, 18, 00),
-                        MaxBufferSize = int.MaxValue,
-                        MaxReceivedMessageSize = int.MaxValue
-#else
-                        SendTimeout = new TimeSpan(0, 8, 00),
-                        ReceiveTimeout = new TimeSpan(0, 18, 00),
-                        MaxBufferSize = int.MaxValue,
-                        MaxReceivedMessageSize = int.MaxValue
-#endif
-                    };
-                    break;
-                case "netmsmq":
-                    _binding = new NetMsmqBinding()
-                    {
-                        OpenTimeout = new TimeSpan(0, 1, 0),
-                        CloseTimeout = new TimeSpan(0, 1, 0),
-#if DEBUG
-                        SendTimeout = new TimeSpan(0, 18, 00),
-                        ReceiveTimeout = new TimeSpan(18, 18, 00),
-                        MaxReceivedMessageSize = int.MaxValue
-#else
-                        SendTimeout = new TimeSpan(0, 8, 00),
-                        ReceiveTimeout = new TimeSpan(0, 18, 00),
-                        MaxReceivedMessageSize = int.MaxValue
-#endif
-                    };
-                    break;
                 default:
                     _binding = new NetTcpBinding(security)
                     {
@@ -136,10 +102,6 @@ namespace SharpService.Configuration
                     return $"http://localhost:{args[1]}/{args[0]}";
                 case "wshttp":
                     return $"http://localhost:{args[1]}/{args[0]}";
-                case "netnamedpipe":
-                    return $"net.pipe://localhost:{args[1]}/{args[0]}";
-                case "netmsmq":
-                    return $"net.msmq://localhost:{args[1]}/{args[0]}";
                 default:
                     return $"net.tcp://localhost:{args[1]}/{args[0]}";
             }

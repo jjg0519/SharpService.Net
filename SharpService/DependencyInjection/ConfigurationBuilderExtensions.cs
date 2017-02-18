@@ -22,20 +22,24 @@ namespace SharpService.DependencyInjection
             return configuration;
         }
 
-        public static ConfigurationBuilder UseIDelegatingHandler(this ConfigurationBuilder configuration)
+        public static ConfigurationBuilder UseDelegatingHandler(this ConfigurationBuilder configuration)
         {
             configuration.SetDefault<IRequesterHandler, DelegatingHandler>(nameof(DelegatingHandler).ToLower());
             return configuration;
         }
 
-        public static ConfigurationBuilder UseIPollyCircuitBreakingDelegatingHandler(this ConfigurationBuilder configuration)
+        public static ConfigurationBuilder UseIPollyCircuitBreakingDelegatingHandler(this ConfigurationBuilder configuration, 
+            int exceptionsAllowedBeforeBreaking,
+            TimeSpan durationOfBreak,
+            TimeSpan timeoutValue,
+            TimeoutStrategy timeoutStrategy)
         {
             configuration.SetDefault<IRequesterHandler, PollyCircuitBreakingDelegatingHandler>(
                 new PollyCircuitBreakingDelegatingHandler(
-                    exceptionsAllowedBeforeBreaking: 2,
-                    durationOfBreak: TimeSpan.FromSeconds(60),
-                    timeoutValue: TimeSpan.FromSeconds(30),
-                    timeoutStrategy: TimeoutStrategy.Pessimistic
+                    exceptionsAllowedBeforeBreaking: exceptionsAllowedBeforeBreaking,
+                    durationOfBreak: durationOfBreak,
+                    timeoutValue: timeoutValue,
+                    timeoutStrategy: timeoutStrategy
                     ),
                 nameof(PollyCircuitBreakingDelegatingHandler).ToLower());
             return configuration;

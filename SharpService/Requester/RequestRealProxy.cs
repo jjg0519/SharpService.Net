@@ -16,7 +16,7 @@ namespace SharpService.Requester
 
         public override IMessage Invoke(IMessage msg)
         {
-            return requesterHandler.Invoke<Interface>(msg, id);
+            return requesterHandler.Handler<Interface>(msg, id);
         }
     }
 }

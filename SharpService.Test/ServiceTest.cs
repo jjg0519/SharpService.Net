@@ -1,11 +1,9 @@
 ﻿using NUnit.Framework;
 using ServiceTestLib;
 using System;
-using SharpService.ServiceProvider;
 using SharpService.Requester;
 using Polly.Timeout;
 using System.Threading;
-using SharpService.Logging;
 using SharpService.DependencyInjection;
 using SharpService.Components;
 
@@ -20,7 +18,13 @@ namespace SharpService.Test
                  .Create()
                  .UseAutofac()
                  .UseExceptionlessLogger()
-                 .UseIDelegatingHandler()
+                 .UseDelegatingHandler()
+                 .UseIPollyCircuitBreakingDelegatingHandler(
+                    exceptionsAllowedBeforeBreaking: 2,
+                    durationOfBreak: TimeSpan.FromSeconds(60),
+                    timeoutValue: TimeSpan.FromSeconds(30),
+                    timeoutStrategy: TimeoutStrategy.Pessimistic
+                )
                  .UseWCFServiceProvider()
                  .Build();
 

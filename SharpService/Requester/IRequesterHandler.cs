@@ -4,6 +4,6 @@ namespace SharpService.Requester
 {
     public interface IRequesterHandler
     {
-        IMessage Invoke<Interface>(IMessage msg, string id, bool throwex = false);
+        IMessage Handler<Interface>(IMessage msg, string id, bool throwex = false);
     }
 }

@@ -58,14 +58,14 @@ namespace SharpService.Requester
             _logger = ObjectContainer.Resolve<ISharpServiceLogger>();
         }
 
-        public override IMessage Invoke<Interface>(IMessage msg, string id, bool throwex = true)
+        public override IMessage Handler<Interface>(IMessage msg, string id, bool throwex = true)
         {
             IMethodCallMessage methodCall = (IMethodCallMessage)msg;
             try
             {
                 return Policy.Wrap(_circuitBreakerPolicy, _timeoutPolicy).Execute(() =>
                  {
-                     return (IMethodReturnMessage)base.Invoke<Interface>(msg, id, true);
+                     return (IMethodReturnMessage)base.Handler<Interface>(msg, id, true);
                  });
             }
             catch (BrokenCircuitException ex)
