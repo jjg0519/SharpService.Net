@@ -4,29 +4,30 @@ using Polly.CircuitBreaker;
 using Polly.Timeout;
 using System;
 using System.Runtime.Remoting.Messaging;
+using SharpService.Components;
 
 namespace SharpService.Requester
 {
     public class PollyCircuitBreakingDelegatingHandler : DelegatingHandler
     {
-        private readonly INServiceLogger _logger;
+        private readonly ISharpServiceLogger _logger;
         private readonly int _exceptionsAllowedBeforeBreaking;
         private readonly TimeSpan _durationOfBreak;
         private readonly Policy _circuitBreakerPolicy;
         private readonly TimeoutPolicy _timeoutPolicy;
 
         public PollyCircuitBreakingDelegatingHandler(
-            int exceptionsAllowedBeforeBreaking, 
-            TimeSpan durationOfBreak, 
-            TimeSpan timeoutValue , 
-            TimeoutStrategy timeoutStrategy, 
-            INServiceLogger logger = null)
+            int exceptionsAllowedBeforeBreaking,
+            TimeSpan durationOfBreak,
+            TimeSpan timeoutValue,
+            TimeoutStrategy timeoutStrategy
+           )
         {
             _exceptionsAllowedBeforeBreaking = exceptionsAllowedBeforeBreaking;
             _durationOfBreak = durationOfBreak;
 
             _circuitBreakerPolicy = Policy
-                .Handle<RequestException>()
+                .Handle<RequestServerException>()
                 .Or<AggregateException>()
                 .Or<TimeoutRejectedException>()
                 .CircuitBreaker(
@@ -35,7 +36,7 @@ namespace SharpService.Requester
                     onBreak: (ex, breakDelay) =>
                     {
                         // _logger.LogError(".Breaker logging: Breaking the circuit for " + breakDelay.TotalMilliseconds + "ms!", ex);
- #if DEBUG
+#if DEBUG
                         Console.WriteLine($".Breaker logging: Breaking the circuit for{breakDelay.TotalMilliseconds}ms! {ex.Message}{ex.GetType()}");
 #endif
                     },
@@ -54,7 +55,7 @@ namespace SharpService.Requester
 #endif
                     });
             _timeoutPolicy = Policy.Timeout(timeoutValue, timeoutStrategy);
-            _logger = logger;
+            _logger = ObjectContainer.Resolve<ISharpServiceLogger>();
         }
 
         public override IMessage Invoke<Interface>(IMessage msg, string id, bool throwex = true)
@@ -82,7 +83,7 @@ namespace SharpService.Requester
 #endif
                 return new ReturnMessage(ex, methodCall); ;
             }
-            catch (RequestException ex)
+            catch (RequestServerException ex)
             {
                 return new ReturnMessage(ex, methodCall); ;
             }

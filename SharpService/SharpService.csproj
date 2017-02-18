@@ -33,6 +33,10 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac, Version=4.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.3.0\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -73,15 +77,25 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behavior\ErrorServiceBehavior.cs" />
-    <Compile Include="Configuration\RegistryElement.cs" />
+    <Compile Include="Components\AutofacObjectContainer.cs" />
+    <Compile Include="Components\ComponentAttribute.cs" />
+    <Compile Include="Components\IObjectContainer.cs" />
+    <Compile Include="Components\ObjectContainer.cs" />
+    <Compile Include="Configuration\RegistryConfiguration.cs" />
     <Compile Include="Configuration\RegistryConfigurationHandler.cs" />
+    <Compile Include="DependencyInjection\ConfigurationBuilder.cs" />
+    <Compile Include="DependencyInjection\ConfigurationBuilderExtensions.cs" />
+    <Compile Include="Logging\ExceptionlessLogger.cs" />
+    <Compile Include="ServiceDiscovery\IServiceDiscoveryProviderFactory.cs" />
+    <Compile Include="ServiceDiscovery\ServiceDiscoveryProviderFactory.cs" />
+    <Compile Include="ServiceDiscovery\UnableToFindServiceDiscoveryProviderError.cs" />
     <Compile Include="ServiceProvider\IServiceProvider.cs" />
-    <Compile Include="Logging\INServiceLogger.cs" />
+    <Compile Include="Logging\ISharpServiceLogger.cs" />
     <Compile Include="Requester\DelegatingHandler.cs" />
     <Compile Include="Behavior\ErrorHandler.cs" />
     <Compile Include="Requester\IRequesterHandler.cs" />
     <Compile Include="Requester\PollyCircuitBreakingDelegatingHandler.cs" />
-    <Compile Include="Requester\RequestException.cs" />
+    <Compile Include="Requester\RequestServerException.cs" />
     <Compile Include="Requester\RequestProxy.cs" />
     <Compile Include="Requester\RequestRealProxy.cs" />
     <Compile Include="Extensions\ConcurrentDictionaryExtensions.cs" />
@@ -90,10 +104,10 @@
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="ServiceProvider\WCFClientFactory.cs" />
     <Compile Include="Configuration\ConfigurationHelper.cs" />
-    <Compile Include="Configuration\RefererElement.cs" />
-    <Compile Include="Configuration\ClassElement.cs" />
+    <Compile Include="Configuration\RefererConfiguration.cs" />
+    <Compile Include="Configuration\ClassConfiguration.cs" />
     <Compile Include="Configuration\RefererConfigurationHandler.cs" />
-    <Compile Include="Configuration\ServiceElement.cs" />
+    <Compile Include="Configuration\ServiceConfiguration.cs" />
     <Compile Include="Configuration\ClassConfigurationHandler.cs" />
     <Compile Include="Configuration\ServiceConfigurationHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

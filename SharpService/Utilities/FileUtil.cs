@@ -4,7 +4,6 @@ using System.Web;
 
 namespace SharpService.Utilities
 {
-
     public class FileUtil
     {
         public static string GetAbsolutePath(string relativePath)

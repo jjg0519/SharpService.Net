@@ -11,12 +11,12 @@ namespace SharpService.Configuration
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
-            var refererElements = new List<RefererElement>();
+            var refererElements = new List<RefererConfiguration>();
             var doc = ConfigurationHelper.CreateXmlDoc(section.OuterXml);
             foreach (XmlNode refererNode in doc.FirstChild.ChildNodes)
             {
                 var errorMessage = string.Empty;
-                var refererElement = new RefererElement();
+                var refererElement = new RefererConfiguration();
                 refererElement.Referers = new List<Referer>();
                 var refererProperties = refererElement.GetType().GetProperties();
                 foreach (var refererPropertie in refererProperties)

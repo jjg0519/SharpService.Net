@@ -131,17 +131,17 @@ namespace SharpService.Configuration
             switch (binding)
             {
                 case "nettcp":
-                    return $"net.tcp://localhost:{args[0]}/{args[1]}";
+                    return $"net.tcp://localhost:{args[1]}/{args[0]}";
                 case "basichttp":
-                    return $"http://localhost:{args[0]}/{args[1]}";
+                    return $"http://localhost:{args[1]}/{args[0]}";
                 case "wshttp":
-                    return $"http://localhost:{args[0]}/{args[1]}";
+                    return $"http://localhost:{args[1]}/{args[0]}";
                 case "netnamedpipe":
-                    return $"net.pipe://localhost:{args[0]}/{args[1]}";
+                    return $"net.pipe://localhost:{args[1]}/{args[0]}";
                 case "netmsmq":
-                    return $"net.msmq://localhost:{args[0]}/{args[1]}";
+                    return $"net.msmq://localhost:{args[1]}/{args[0]}";
                 default:
-                    return $"net.tcp://localhost:{args[0]}/{args[1]}";
+                    return $"net.tcp://localhost:{args[1]}/{args[0]}";
             }
         }
 

@@ -12,28 +12,28 @@ namespace SharpService.Configuration
     {
         public object Create(object parent, object configContext, System.Xml.XmlNode section)
         {
-            var classElements = new List<ClassElement>();
+            var classConfigurations = new List<ClassConfiguration>();
             var doc = ConfigurationHelper.CreateXmlDoc(section.OuterXml);
             foreach (XmlNode classNode in doc.FirstChild.ChildNodes)
             {
                 var errorMessage = string.Empty;
-                var classElement = new ClassElement();
-                var classProperties = classElement.GetType().GetProperties();
+                var classConfiguration = new ClassConfiguration();
+                var classProperties = classConfiguration.GetType().GetProperties();
                 foreach (var classPropertie in classProperties)
                 {
                     var attr = classNode.Attributes[classPropertie.Name.ToLower()];
                     if (attr != null)
                     {
-                        classPropertie.SetValue(classElement, Convert.ChangeType(attr.Value, classPropertie.PropertyType), null);
+                        classPropertie.SetValue(classConfiguration, Convert.ChangeType(attr.Value, classPropertie.PropertyType), null);
                     }
                 }
-                if (!ValidateUtil.ValidateEntity(classElement, out errorMessage))
+                if (!ValidateUtil.ValidateEntity(classConfiguration, out errorMessage))
                 {
                     throw new Exception(errorMessage);
                 }
-                classElements.Add(classElement);
+                classConfigurations.Add(classConfiguration);
             }
-            return classElements;
+            return classConfigurations;
         }
     }
 }

@@ -1,17 +1,14 @@
 ﻿using Exceptionless;
 using Exceptionless.Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace SharpService.Logging
 {
- 
-    public interface INServiceLogger
-    {
-        void LogDebug(string message, params object[] args);
-        void LogError(string message, Exception exception);
-    }
-
-    public class ExceptionlessLogger: INServiceLogger
+    public class ExceptionlessLogger : ISharpServiceLogger
     {
         static ExceptionlessLogger()
         {

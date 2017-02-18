@@ -14,23 +14,23 @@ namespace SharpService.Configuration
         public object Create(object parent, object configContext, XmlNode section)
         {
             var doc = ConfigurationHelper.CreateXmlDoc(section.OuterXml);
-            var registryElement = new RegistryElement();
+            var registryConfiguration = new RegistryConfiguration();
             var registryNode = doc.FirstChild.ChildNodes[0];
             var errorMessage = string.Empty;
-            var registryProperties = registryElement.GetType().GetProperties();
+            var registryProperties = registryConfiguration.GetType().GetProperties();
             foreach (var registryPropertie in registryProperties)
             {
                 var attr = registryNode.Attributes[registryPropertie.Name.ToLower()];
                 if (attr != null)
                 {
-                    registryPropertie.SetValue(registryElement, Convert.ChangeType(attr.Value, registryPropertie.PropertyType), null);
+                    registryPropertie.SetValue(registryConfiguration, Convert.ChangeType(attr.Value, registryPropertie.PropertyType), null);
                 }
             }
-            if (!ValidateUtil.ValidateEntity(registryElement, out errorMessage))
+            if (!ValidateUtil.ValidateEntity(registryConfiguration, out errorMessage))
             {
                 throw new Exception(errorMessage);
             }
-            return registryElement;
+            return registryConfiguration;
         }
     }
 }

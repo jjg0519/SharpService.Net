@@ -68,7 +68,7 @@
     <Compile Include="PollyTest.cs" />
     <Compile Include="ConfigurationTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CallServiceTest.cs" />
+    <Compile Include="ServiceTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

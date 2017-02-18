@@ -8,7 +8,7 @@ using System.ComponentModel;
 
 namespace SharpService.Configuration
 {
-    public class RefererElement
+    public class RefererConfiguration
     {
         [Required]
         public string Id { get; set; }

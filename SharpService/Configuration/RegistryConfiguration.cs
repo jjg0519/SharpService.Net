@@ -2,7 +2,7 @@
 
 namespace SharpService.Configuration
 {
-    public class RegistryElement
+    public class RegistryConfiguration
     {
         [Required]
         public string RegProtocol { set; get; }

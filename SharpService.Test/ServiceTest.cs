@@ -1,26 +1,36 @@
 ﻿using NUnit.Framework;
 using ServiceTestLib;
 using System;
-using SharpService.Factory;
+using SharpService.ServiceProvider;
 using SharpService.Requester;
 using Polly.Timeout;
 using System.Threading;
 using SharpService.Logging;
+using SharpService.DependencyInjection;
+using SharpService.Components;
 
 namespace SharpService.Test
 {
-    public class CallServiceTest
+    public class ServiceTest
     {
         [OneTimeSetUp]
         public void SetUp()
         {
-            new WCFServiceFactory().ProviderService().RegistryService();
+            ConfigurationBuilder
+                 .Create()
+                 .UseAutofac()
+                 .UseExceptionlessLogger()
+                 .UseIDelegatingHandler()
+                 .UseWCFServiceProvider()
+                 .Build();
+
+            ObjectContainer.Resolve<ServiceProvider.IServiceProvider>().Provider();
         }
 
         [OneTimeTearDown]
         public void TearDown()
         {
-            new WCFServiceFactory().CloseService().CancelService();
+            ObjectContainer.Resolve<ServiceProvider.IServiceProvider>().Close();
         }
 
         [Test]
@@ -51,8 +61,7 @@ namespace SharpService.Test
                     exceptionsAllowedBeforeBreaking: 2,
                     durationOfBreak: TimeSpan.FromSeconds(60),
                     timeoutValue: TimeSpan.FromSeconds(30),
-                    timeoutStrategy: TimeoutStrategy.Pessimistic,
-                    logger: new ExceptionlessLogger()
+                    timeoutStrategy: TimeoutStrategy.Pessimistic
                     )
                 );
             var client = proxy.UseId("helloService").BuilderClient<IHelloService>();

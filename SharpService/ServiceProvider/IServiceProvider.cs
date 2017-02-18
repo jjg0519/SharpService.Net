@@ -1,13 +1,10 @@
-﻿namespace SharpService.Factory
+﻿namespace SharpService.ServiceProvider
 {
     public interface IServiceProvider
     {
-        IServiceProvider ProviderService();
+        IServiceProvider Provider();
 
-        IServiceProvider RegistryService();
+        IServiceProvider Close();
 
-        IServiceProvider CloseService();
-
-        IServiceProvider CancelService();
     }
 }

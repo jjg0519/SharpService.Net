@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Configuration;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SharpService.Configuration
 {
-    public class ClassElement
+    public class ClassConfiguration
     {
         [Required]
         public string Id { get; set; }

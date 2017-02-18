@@ -1,4 +1,4 @@
-﻿using SharpService.Factory;
+﻿using SharpService.ServiceProvider;
 using System;
 using System.Runtime.Remoting.Messaging;
 using System.ServiceModel;
@@ -32,7 +32,7 @@ namespace SharpService.Requester
                 }
                 else
                 {
-                    throw new RequestException(exception.Message, exception);
+                    throw new RequestServerException(exception.Message, exception);
                 }
             }
             finally
