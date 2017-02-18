@@ -28,33 +28,43 @@ namespace SharpService.ServiceDiscovery
         {
             throw new NotImplementedException();
         }
-    
+
+        public virtual Task<bool> DeregisterServiceAsync()
+        {
+            throw new NotImplementedException();
+        }
+
         public virtual Task<RegistryInformation> RegisterServiceAsync(ServiceConfiguration serviceConfig)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<RegistryInformation> RegisterServiceAsync(string serviceName, string version, Uri uri, IEnumerable<string> tags = null)
+        public virtual Task<RegistryInformation> RegisterServiceAsync(string serviceName, string version, Uri uri, List<string> tags = null)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<IList<RegistryInformation>> FindServicesAsync()
+        public virtual Task RegisterServiceAsync()
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<IList<RegistryInformation>> FindServicesAsync(string name)
+        public virtual Task<List<RegistryInformation>> FindServicesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<IList<RegistryInformation>> FindServicesWithVersionAsync(string name, string version)
+        public virtual Task<List<RegistryInformation>> FindServicesAsync(string name)
         {
             throw new NotImplementedException();
         }
 
-        public virtual Task<IList<RegistryInformation>> FindAllServicesAsync()
+        public virtual Task<List<RegistryInformation>> FindServicesWithVersionAsync(string name, string version)
+        {
+            throw new NotImplementedException();
+        }
+
+        public virtual Task<List<RegistryInformation>> FindAllServicesAsync()
         {
             throw new NotImplementedException();
         }    

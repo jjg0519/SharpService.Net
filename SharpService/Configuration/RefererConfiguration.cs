@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Configuration;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SharpService.Configuration
 {
@@ -13,11 +7,10 @@ namespace SharpService.Configuration
         [Required]
         public string Id { get; set; }
 
+        [Required]
         public string Interface { get; set; }
 
-        public string Assembly { get; set; }
-
         [Required]
-        public List<Referer> Referers { get; set; }
+        public string Assembly { get; set; }
     }
 }

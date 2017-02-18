@@ -11,11 +11,6 @@ namespace SharpService.Components
             Current = container;
         }
 
-        public static void Build()
-        {
-            Current.Build();
-        }
-
         public static void RegisterType(Type implementationType, string serviceName = null, LifeStyle life = LifeStyle.Singleton)
         {
             Current.RegisterType(implementationType, serviceName, life);

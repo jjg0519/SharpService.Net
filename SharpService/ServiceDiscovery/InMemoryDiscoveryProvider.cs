@@ -15,7 +15,7 @@ namespace SharpService.ServiceDiscovery
      
         private readonly List<RegistryInformation> _serviceInstances = new List<RegistryInformation>();
 
-        public IList<RegistryInformation> ServiceInstances
+        public List<RegistryInformation> ServiceInstances
         {
             get { return _serviceInstances; }
             set
@@ -32,20 +32,29 @@ namespace SharpService.ServiceDiscovery
             }
         }
 
+        public override async Task RegisterServiceAsync()
+        {
+            foreach (var serviceConfig in serviceConfigurations)
+                await RegisterServiceAsync(serviceConfig);
+        }
+
         public override async Task<RegistryInformation> RegisterServiceAsync(ServiceConfiguration serviceConfig)
         {
-            var serviceName = await GetServiceName(serviceConfig.Interface, serviceConfig.Address);
+            var serviceName = await GetServiceName(serviceConfig.Interface, serviceConfig.Assembly);
             var version = serviceConfig.Version;
             var uri = new Uri(serviceConfig.Address);
-            var tags = new List<string>() { serviceConfig.Binding, serviceConfig.Security.ToString() };
+            var tags = new List<string>()
+            {
+                serviceConfig.Binding,
+                serviceConfig.Security.ToString(),
+                serviceConfig.Export
+            };
             return await RegisterServiceAsync(serviceName, version, uri, tags);
         }
 
-        public override Task<RegistryInformation> RegisterServiceAsync(string serviceName, string version, Uri uri, IEnumerable<string> tags = null)
+        public override Task<RegistryInformation> RegisterServiceAsync(string serviceName, string version, Uri uri, List<string> tags = null)
         {
-            string versionLabel = $"{VERSION_PREFIX}{version}";
             var tagList = (tags ?? Enumerable.Empty<string>()).ToList();
-            tagList.Add(versionLabel);
 
             var registryInformation = new RegistryInformation
             {
@@ -54,9 +63,9 @@ namespace SharpService.ServiceDiscovery
                 Address = uri.Host,
                 Port = uri.Port,
                 Version = version,
-                Tags = tags ?? Enumerable.Empty<string>()
+                Tags = tags ?? default(List<string>)
             };
-            _serviceInstances.Add(registryInformation);
+            ServiceInstances.Add(registryInformation);
             return Task.FromResult(registryInformation);
         }
 
@@ -71,25 +80,31 @@ namespace SharpService.ServiceDiscovery
             return false;
         }
 
-        public override Task<IList<RegistryInformation>> FindServicesAsync()
+        public override Task<bool> DeregisterServiceAsync()
+        {
+            ServiceInstances = new List<RegistryInformation>();
+            return Task.FromResult(true);
+        }
+
+        public override Task<List<RegistryInformation>> FindServicesAsync()
         {
             return Task.FromResult(ServiceInstances);
         }
 
-        public override async Task<IList<RegistryInformation>> FindServicesAsync(string name)
+        public override async Task<List<RegistryInformation>> FindServicesAsync(string name)
         {
             var instances = await FindServicesAsync();
             return instances.Where(x => x.Name == name).ToList();
         }
 
-        public override async Task<IList<RegistryInformation>> FindServicesWithVersionAsync(string name, string version)
+        public override async Task<List<RegistryInformation>> FindServicesWithVersionAsync(string name, string version)
         {
             var instances = await FindServicesAsync(name);
             var range = new Range(version);
             return instances.Where(x => range.IsSatisfied(x.Version)).ToList();
         }
 
-        public override Task<IList<RegistryInformation>> FindAllServicesAsync()
+        public override Task<List<RegistryInformation>> FindAllServicesAsync()
         {
             return Task.FromResult(ServiceInstances);
         }

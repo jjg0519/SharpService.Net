@@ -27,7 +27,7 @@ namespace SharpService.Requester
             _durationOfBreak = durationOfBreak;
 
             _circuitBreakerPolicy = Policy
-                .Handle<RequestServerException>()
+                .Handle<RequestException>()
                 .Or<AggregateException>()
                 .Or<TimeoutRejectedException>()
                 .CircuitBreaker(
@@ -55,7 +55,7 @@ namespace SharpService.Requester
 #endif
                     });
             _timeoutPolicy = Policy.Timeout(timeoutValue, timeoutStrategy);
-            _logger = ObjectContainer.Resolve<ISharpServiceLogger>();
+            ObjectContainer.TryResolve(out _logger);
         }
 
         public override IMessage Handler<Interface>(IMessage msg, string id, bool throwex = true)
@@ -83,7 +83,7 @@ namespace SharpService.Requester
 #endif
                 return new ReturnMessage(ex, methodCall); ;
             }
-            catch (RequestServerException ex)
+            catch (RequestException ex)
             {
                 return new ReturnMessage(ex, methodCall); ;
             }

@@ -32,11 +32,5 @@ namespace SharpService.DependencyInjection
             ObjectContainer.RegisterInstance<TService, TImplementer>(instance, serviceName);
             return this;
         }
-
-        public ConfigurationBuilder Build()
-        {
-            ObjectContainer.Build();
-            return this;
-        }
     }
 }

@@ -24,11 +24,11 @@ namespace SharpService.DependencyInjection
 
         public static ConfigurationBuilder UseDelegatingHandler(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<IRequesterHandler, DelegatingHandler>(nameof(DelegatingHandler).ToLower());
+            configuration.SetDefault<IRequesterHandler, DelegatingHandler>(typeof(DelegatingHandler).FullName);
             return configuration;
         }
 
-        public static ConfigurationBuilder UseIPollyCircuitBreakingDelegatingHandler(this ConfigurationBuilder configuration, 
+        public static ConfigurationBuilder UsePollyCircuitBreakingDelegatingHandler(this ConfigurationBuilder configuration, 
             int exceptionsAllowedBeforeBreaking,
             TimeSpan durationOfBreak,
             TimeSpan timeoutValue,
@@ -41,13 +41,22 @@ namespace SharpService.DependencyInjection
                     timeoutValue: timeoutValue,
                     timeoutStrategy: timeoutStrategy
                     ),
-                nameof(PollyCircuitBreakingDelegatingHandler).ToLower());
+                typeof(PollyCircuitBreakingDelegatingHandler).FullName);
             return configuration;
         }
 
         public static ConfigurationBuilder UseWCFServiceProvider(this ConfigurationBuilder configuration)
         {
             configuration.SetDefault<ServiceProvider.IServiceProvider, WCFServiceProvider>();
+            return configuration;
+        }
+
+        public static ConfigurationBuilder UseServiceDiscoveryProvider(this ConfigurationBuilder configuration)
+        {
+            UseServiceDiscoveryProviderFactory(configuration);
+            UseInMemoryDiscoveryProvider(configuration);
+            UseConsulDiscoveryProvider(configuration);
+            UseZooKeeperDiscoveryProviderr(configuration);
             return configuration;
         }
 
@@ -59,25 +68,26 @@ namespace SharpService.DependencyInjection
 
         public static ConfigurationBuilder UseInMemoryDiscoveryProvider(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<IServiceDiscoveryProvider, InMemoryDiscoveryProvider>(nameof(InMemoryDiscoveryProvider).ToLower());
+            configuration.SetDefault<IServiceDiscoveryProvider, InMemoryDiscoveryProvider>(
+                typeof(InMemoryDiscoveryProvider).FullName);
             return configuration;
         }
 
         public static ConfigurationBuilder UseConsulDiscoveryProvider(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<IServiceDiscoveryProvider, ConsulDiscoveryProvider>(nameof(ConsulDiscoveryProvider).ToLower());
+            configuration.SetDefault<IServiceDiscoveryProvider, ConsulDiscoveryProvider>(typeof(ConsulDiscoveryProvider).FullName);
             return configuration;
         }
 
         public static ConfigurationBuilder UseZooKeeperDiscoveryProviderr(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<IServiceDiscoveryProvider, ZooKeeperDiscoveryProvider>(nameof(ZooKeeperDiscoveryProvider).ToLower());
+            configuration.SetDefault<IServiceDiscoveryProvider, ZooKeeperDiscoveryProvider>(typeof(ZooKeeperDiscoveryProvider).FullName);
             return configuration;
         }
 
         public static ConfigurationBuilder UseExceptionlessLogger(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<ISharpServiceLogger, ExceptionlessLogger>(new ExceptionlessLogger());
+            configuration.SetDefault<ISharpServiceLogger, ExceptionlessLogger>();
             return configuration;
         }
     }

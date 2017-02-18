@@ -1,11 +1,12 @@
 ﻿using SharpService.Configuration;
+using System.Threading.Tasks;
 
 namespace SharpService.ServiceDiscovery
 {
     public interface IServiceDiscoveryProviderFactory
     {
-        IServiceDiscoveryProvider Get();
+        Task<IServiceDiscoveryProvider> GetAsync();
 
-        IServiceDiscoveryProvider Get(RegistryConfiguration registryConfig);
+        Task<IServiceDiscoveryProvider> GetAsync(RegistryConfiguration registryConfig);
     }
 }

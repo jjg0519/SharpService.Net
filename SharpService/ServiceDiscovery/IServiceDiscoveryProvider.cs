@@ -13,18 +13,22 @@ namespace SharpService.ServiceDiscovery
 
         Task<string> GetServiceIdAsync(string serviceName, Uri uri);
 
+        Task RegisterServiceAsync();
+
         Task<RegistryInformation> RegisterServiceAsync(ServiceConfiguration serviceConfig);
 
-        Task<RegistryInformation> RegisterServiceAsync(string serviceName, string version, Uri uri,  IEnumerable<string> tags = null);
+        Task<RegistryInformation> RegisterServiceAsync(string serviceName, string version, Uri uri,  List<string> tags = null);
 
         Task<bool> DeregisterServiceAsync(string serviceId);
 
-        Task<IList<RegistryInformation>> FindServicesAsync();
+        Task<bool> DeregisterServiceAsync();
 
-        Task<IList<RegistryInformation>> FindServicesAsync(string name);
+        Task<List<RegistryInformation>> FindServicesAsync();
 
-        Task<IList<RegistryInformation>> FindServicesWithVersionAsync(string name, string version);
+        Task<List<RegistryInformation>> FindServicesAsync(string name);
 
-        Task<IList<RegistryInformation>> FindAllServicesAsync();
+        Task<List<RegistryInformation>> FindServicesWithVersionAsync(string name, string version);
+
+        Task<List<RegistryInformation>> FindAllServicesAsync();
     }
 }

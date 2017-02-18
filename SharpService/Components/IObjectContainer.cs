@@ -4,8 +4,6 @@ namespace SharpService.Components
 {
     public interface IObjectContainer
     {
-        void Build();
-
         void RegisterType(Type implementationType, string serviceName = null, LifeStyle life = LifeStyle.Singleton);
 
         void RegisterType(Type serviceType, Type implementationType, string serviceName = null, LifeStyle life = LifeStyle.Singleton);

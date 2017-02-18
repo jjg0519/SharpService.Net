@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace SharpService.ServiceDiscovery
 {
@@ -13,6 +9,6 @@ namespace SharpService.ServiceDiscovery
         public string Address { get; set; }
         public int Port { get; set; }
         public string Version { get; set; }
-        public IEnumerable<string> Tags { get; set; }
+        public List<string> Tags { get; set; }
     }
 }

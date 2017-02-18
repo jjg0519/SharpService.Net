@@ -1,5 +1,7 @@
-﻿using SharpService.Configuration;
+﻿using SharpService.Components;
+using SharpService.Configuration;
 using System.Configuration;
+using System.Threading.Tasks;
 
 namespace SharpService.ServiceDiscovery
 {
@@ -8,17 +10,18 @@ namespace SharpService.ServiceDiscovery
         private const string registryConfig = "serviceGroup/registryConfig";
         private readonly RegistryConfiguration registryConfiguration = ConfigurationManager.GetSection(registryConfig) as RegistryConfiguration;
 
-        public IServiceDiscoveryProvider Get()
+        public Task<IServiceDiscoveryProvider> GetAsync()
         {
-            return Get(registryConfiguration);
+            return GetAsync(registryConfiguration);
         }
 
-        public IServiceDiscoveryProvider Get(RegistryConfiguration registryConfig)
+        public Task<IServiceDiscoveryProvider> GetAsync(RegistryConfiguration registryConfig)
         {
             switch (registryConfig.RegProtocol)
             {
-                case "":
-                    return new InMemoryDiscoveryProvider();
+                case "local":
+                    return Task.FromResult(ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(
+                        typeof(InMemoryDiscoveryProvider).FullName));
                 default:
                     throw new UnableToFindServiceDiscoveryProviderException("UnableToFindServiceDiscoveryProvider");
             }

@@ -1,5 +1,4 @@
-﻿using SharpService.ServiceProvider;
-using System;
+﻿using System;
 using System.Runtime.Remoting.Messaging;
 using System.ServiceModel;
 
@@ -14,7 +13,7 @@ namespace SharpService.Requester
             Interface channel = default(Interface);
             try
             {
-                var factory = WCFClientFactory.CreateChannelFactory<Interface>(id);
+                var factory = WCFClientFactory.CreateChannelFactory<Interface>(id).Result;
                 channel = factory.CreateChannel();
                 object[] copiedArgs = Array.CreateInstance(typeof(object), methodCall.Args.Length) as object[];
                 methodCall.Args.CopyTo(copiedArgs, 0);
@@ -32,7 +31,7 @@ namespace SharpService.Requester
                 }
                 else
                 {
-                    throw new RequestServerException(exception.Message, exception);
+                    throw new RequestException(exception.Message, exception);
                 }
             }
             finally

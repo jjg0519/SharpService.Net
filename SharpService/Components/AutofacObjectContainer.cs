@@ -5,18 +5,16 @@ namespace SharpService.Components
 {
     public class AutofacObjectContainer : IObjectContainer
     {
-        private IContainer _container;
-
-        private ContainerBuilder _containerBuilder;
+        private readonly IContainer _container;
 
         public AutofacObjectContainer()
         {
-            _containerBuilder = new ContainerBuilder();
+            _container = new ContainerBuilder().Build();
         }
 
         public AutofacObjectContainer(ContainerBuilder containerBuilder)
         {
-            _containerBuilder = containerBuilder;
+            _container = containerBuilder.Build();
         }
 
         public IContainer Container
@@ -27,14 +25,10 @@ namespace SharpService.Components
             }
         }
 
-        public void Build()
-        {
-            _container = _containerBuilder.Build();
-        }
-
         public void RegisterType(Type implementationType, string serviceName = null, LifeStyle life = LifeStyle.Singleton)
-        {         
-            var registrationBuilder = _containerBuilder.RegisterType(implementationType);
+        {
+            var builder = new ContainerBuilder();
+            var registrationBuilder = builder.RegisterType(implementationType);
             if (serviceName != null)
             {
                 registrationBuilder.Named(serviceName, implementationType);
@@ -42,12 +36,14 @@ namespace SharpService.Components
             if (life == LifeStyle.Singleton)
             {
                 registrationBuilder.SingleInstance();
-            }         
+            }
+            builder.Update(_container);
         }
 
         public void RegisterType(Type serviceType, Type implementationType, string serviceName = null, LifeStyle life = LifeStyle.Singleton)
         {
-            var registrationBuilder = _containerBuilder.RegisterType(implementationType).As(serviceType);
+            var builder = new ContainerBuilder();
+            var registrationBuilder = builder.RegisterType(implementationType).As(serviceType);
             if (serviceName != null)
             {
                 registrationBuilder.Named(serviceName, serviceType);
@@ -56,13 +52,15 @@ namespace SharpService.Components
             {
                 registrationBuilder.SingleInstance();
             }
+            builder.Update(_container);
         }
 
         public void Register<TService, TImplementer>(string serviceName = null, LifeStyle life = LifeStyle.Singleton)
             where TService : class
             where TImplementer : class, TService
         {
-            var registrationBuilder = _containerBuilder.RegisterType<TImplementer>().As<TService>();
+            var builder = new ContainerBuilder();
+            var registrationBuilder = builder.RegisterType<TImplementer>().As<TService>();
             if (serviceName != null)
             {
                 registrationBuilder.Named<TService>(serviceName);
@@ -71,17 +69,20 @@ namespace SharpService.Components
             {
                 registrationBuilder.SingleInstance();
             }
+            builder.Update(_container);
         }
 
         public void RegisterInstance<TService, TImplementer>(TImplementer instance, string serviceName = null)
             where TService : class
             where TImplementer : class, TService
         {
-            var registrationBuilder = _containerBuilder.RegisterInstance(instance).As<TService>().SingleInstance();
+            var builder = new ContainerBuilder();
+            var registrationBuilder = builder.RegisterInstance(instance).As<TService>().SingleInstance();
             if (serviceName != null)
             {
                 registrationBuilder.Named<TService>(serviceName);
             }
+            builder.Update(_container);
         }
 
         public TService Resolve<TService>() where TService : class
@@ -96,7 +97,7 @@ namespace SharpService.Components
 
         public bool TryResolve<TService>(out TService instance) where TService : class
         {
-            return _container.TryResolve(out instance);
+            return _container.TryResolve<TService>(out instance);
         }
 
         public bool TryResolve(Type serviceType, out object instance)
