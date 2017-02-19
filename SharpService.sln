@@ -3,11 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTestLib", "ServiceTestLib\ServiceTestLib.csproj", "{4CF899DB-84C2-481B-A9E8-596F03BC07FD}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{611DEC97-D930-4207-8E9A-02145A703EE3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpService.Test", "SharpService.Test\SharpService.Test.csproj", "{622755DE-5F43-4499-9909-9F9A37479418}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{3C771755-FB10-454E-B4B6-54E9725B6565}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpService", "SharpService\SharpService.csproj", "{7D938C69-3D7D-4C73-A45E-BEAC5CA4F00D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Business", "sample\Sample.Business\Sample.Business.csproj", "{9E4766F1-85E5-4F9F-BFAA-3726A1110AA1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Service", "sample\Sample.Service\Sample.Service.csproj", "{C3E981DE-4EFE-4DA1-A487-6BDEE12294F0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ServiceClient", "sample\Sample.ServiceClient\Sample.ServiceClient.csproj", "{F98AF792-5C96-4087-AA5E-D7A5DB7EBD8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ServiceProvider", "sample\Sample.ServiceProvider\Sample.ServiceProvider.csproj", "{5A34F891-A6C1-45B9-9DBD-50A850D77C07}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTestLib", "test\ServiceTestLib\ServiceTestLib.csproj", "{4CF899DB-84C2-481B-A9E8-596F03BC07FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpService.Test", "test\SharpService.Test\SharpService.Test.csproj", "{622755DE-5F43-4499-9909-9F9A37479418}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpService", "src\SharpService\SharpService.csproj", "{7D938C69-3D7D-4C73-A45E-BEAC5CA4F00D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +27,22 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9E4766F1-85E5-4F9F-BFAA-3726A1110AA1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E4766F1-85E5-4F9F-BFAA-3726A1110AA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E4766F1-85E5-4F9F-BFAA-3726A1110AA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E4766F1-85E5-4F9F-BFAA-3726A1110AA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3E981DE-4EFE-4DA1-A487-6BDEE12294F0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3E981DE-4EFE-4DA1-A487-6BDEE12294F0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3E981DE-4EFE-4DA1-A487-6BDEE12294F0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3E981DE-4EFE-4DA1-A487-6BDEE12294F0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F98AF792-5C96-4087-AA5E-D7A5DB7EBD8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F98AF792-5C96-4087-AA5E-D7A5DB7EBD8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F98AF792-5C96-4087-AA5E-D7A5DB7EBD8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F98AF792-5C96-4087-AA5E-D7A5DB7EBD8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A34F891-A6C1-45B9-9DBD-50A850D77C07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A34F891-A6C1-45B9-9DBD-50A850D77C07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A34F891-A6C1-45B9-9DBD-50A850D77C07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A34F891-A6C1-45B9-9DBD-50A850D77C07}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4CF899DB-84C2-481B-A9E8-596F03BC07FD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4CF899DB-84C2-481B-A9E8-596F03BC07FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4CF899DB-84C2-481B-A9E8-596F03BC07FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -30,5 +58,13 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E4766F1-85E5-4F9F-BFAA-3726A1110AA1} = {3C771755-FB10-454E-B4B6-54E9725B6565}
+		{C3E981DE-4EFE-4DA1-A487-6BDEE12294F0} = {3C771755-FB10-454E-B4B6-54E9725B6565}
+		{F98AF792-5C96-4087-AA5E-D7A5DB7EBD8B} = {3C771755-FB10-454E-B4B6-54E9725B6565}
+		{5A34F891-A6C1-45B9-9DBD-50A850D77C07} = {3C771755-FB10-454E-B4B6-54E9725B6565}
+		{4CF899DB-84C2-481B-A9E8-596F03BC07FD} = {611DEC97-D930-4207-8E9A-02145A703EE3}
+		{622755DE-5F43-4499-9909-9F9A37479418} = {611DEC97-D930-4207-8E9A-02145A703EE3}
 	EndGlobalSection
 EndGlobal
