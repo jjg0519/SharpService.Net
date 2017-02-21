@@ -1,7 +1,6 @@
 ﻿using Sample.Service;
 using SharpService.DependencyInjection;
 using SharpService.ServiceRequester;
-using SharpService.ServiceProvider;
 using System;
 using System.Collections.Generic;
 
@@ -17,8 +16,8 @@ namespace Sample.ServiceClient
                 .UseAutofac()
                 .UseExceptionlessLogger()
                 .UseWCFDelegatingHandler()
-               .UseServiceDiscoveryProvider()
-               .UseLoadBalance();
+                .UseServiceDiscoveryProvider()
+                .UseLoadBalance();
 
             var client = new RequestClient()
                  .UseId("sampleService")

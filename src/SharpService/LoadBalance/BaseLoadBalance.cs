@@ -31,7 +31,7 @@ namespace SharpService.LoadBalance
             {
                 return services[0];
             }
-            throw new Exception(" No available referers for call request:");
+            throw new Exception(" No available service for call request:");
         }
 
         protected abstract RegistryInformation DoSelect(List<RegistryInformation> services);

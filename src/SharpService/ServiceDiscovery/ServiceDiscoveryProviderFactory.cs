@@ -22,6 +22,12 @@ namespace SharpService.ServiceDiscovery
                 case "local":
                     return Task.FromResult(ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(
                         typeof(InMemoryDiscoveryProvider).FullName));
+                case "zookeeper":
+                    return Task.FromResult(ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(
+                        typeof(ZooKeeperDiscoveryProvider).FullName));
+                case "consul":
+                    return Task.FromResult(ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(
+                        typeof(ZooKeeperDiscoveryProvider).FullName));
                 default:
                     throw new UnableToFindServiceDiscoveryProviderException("UnableToFindServiceDiscoveryProvider");
             }
