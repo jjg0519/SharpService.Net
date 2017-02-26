@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SharpService.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -94,16 +95,17 @@ namespace SharpService.Configuration
         public static string CreateAddress(string export, string binding)
         {
             var args = export.Split(new char[] { ':' }, StringSplitOptions.RemoveEmptyEntries);
+            var ipAddress = DnsUtil.GetIpAddressAsync().Result;
             switch (binding)
             {
                 case "nettcp":
-                    return $"net.tcp://localhost:{args[1]}/{args[0]}";
+                    return $"net.tcp://{ipAddress}:{args[1]}/{args[0]}";
                 case "basichttp":
-                    return $"http://localhost:{args[1]}/{args[0]}";
+                    return $"http://{ipAddress}:{args[1]}/{args[0]}";
                 case "wshttp":
-                    return $"http://localhost:{args[1]}/{args[0]}";
+                    return $"http://{ipAddress}:{args[1]}/{args[0]}";
                 default:
-                    return $"net.tcp://localhost:{args[1]}/{args[0]}";
+                    return $"net.tcp://{ipAddress}:{args[1]}/{args[0]}";
             }
         }
 

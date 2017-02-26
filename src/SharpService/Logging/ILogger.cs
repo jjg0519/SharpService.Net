@@ -4,9 +4,9 @@ using System;
 
 namespace SharpService.Logging
 {
-    public interface ISharpServiceLogger
+    public interface ILogger
     {
-        void LogDebug(string message, params object[] args);
+        void LogDebug(string message);
         void LogError(string message, Exception exception);
     }
 }

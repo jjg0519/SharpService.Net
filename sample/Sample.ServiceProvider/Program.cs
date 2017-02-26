@@ -20,6 +20,7 @@ namespace Sample.ServiceProvider
             ObjectContainer.Resolve<SharpService.ServiceProvider.IServiceProvider>().Provider();
             var serviceDiscoveryProvider = ObjectContainer.Resolve<IServiceDiscoveryProviderFactory>().GetAsync().Result;
             serviceDiscoveryProvider.RegisterServiceAsync();
+            //serviceDiscoveryProvider.DeregisterServiceAsync();
             Console.ReadKey();
         }
     }

@@ -4,19 +4,18 @@ using System;
 
 namespace SharpService.Logging
 {
-    public class ExceptionlessLogger : ISharpServiceLogger
+    public class ExceptionlessLogger : ILogger
     {
         static ExceptionlessLogger()
         {
             ExceptionlessClient.Default.Startup();
         }
 
-        public void LogDebug(string message, params object[] args)
+        public void LogDebug(string message)
         {
             ExceptionlessClient.Default.CreateLog(message, LogLevel.Debug)
                                      .SetReferenceId(Guid.NewGuid().ToString("N"))
                                      .AddTags("NServiceDebug")
-                                    .AddObject(args)
                                     .Submit(); ;
         }
 

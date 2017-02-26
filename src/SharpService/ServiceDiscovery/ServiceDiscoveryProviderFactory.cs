@@ -27,7 +27,7 @@ namespace SharpService.ServiceDiscovery
                         typeof(ZooKeeperDiscoveryProvider).FullName));
                 case "consul":
                     return Task.FromResult(ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(
-                        typeof(ZooKeeperDiscoveryProvider).FullName));
+                        typeof(ConsulDiscoveryProvider).FullName));
                 default:
                     throw new UnableToFindServiceDiscoveryProviderException("UnableToFindServiceDiscoveryProvider");
             }

@@ -41,6 +41,10 @@
       <HintPath>..\..\packages\Exceptionless.4.0.1934\lib\net45\Exceptionless.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="log4net, Version=1.2.10.0, Culture=neutral, PublicKeyToken=1b44e1d426115821, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.1.2.10\lib\2.0\log4net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -70,6 +74,13 @@
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="ZKClientNET">
+      <HintPath>..\..\reference\ZKClientNET.dll</HintPath>
+    </Reference>
+    <Reference Include="ZooKeeperNet, Version=3.4.6.1, Culture=neutral, PublicKeyToken=fefd2c046da35b56, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ZooKeeper.Net.3.4.6.2\lib\net40\ZooKeeperNet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behavior\ErrorServiceBehavior.cs" />
@@ -89,6 +100,7 @@
     <Compile Include="LoadBalance\RoundRobinLoadBalance.cs" />
     <Compile Include="LoadBalance\UnableToFindLoadBalanceException.cs" />
     <Compile Include="Logging\ExceptionlessLogger.cs" />
+    <Compile Include="Logging\Log4NetLogger.cs" />
     <Compile Include="ServiceRequester\UnableRequestException.cs" />
     <Compile Include="ServiceDiscovery\ServiceDiscoveryProvider.cs" />
     <Compile Include="ServiceDiscovery\IServiceDiscoveryProviderFactory.cs" />
@@ -96,7 +108,7 @@
     <Compile Include="ServiceDiscovery\ServiceDiscoveryProviderFactory.cs" />
     <Compile Include="ServiceDiscovery\UnableToFindServiceDiscoveryProviderException.cs" />
     <Compile Include="ServiceProvider\IServiceProvider.cs" />
-    <Compile Include="Logging\ISharpServiceLogger.cs" />
+    <Compile Include="Logging\ILogger.cs" />
     <Compile Include="ServiceRequester\WCFDelegatingHandler.cs" />
     <Compile Include="Behavior\ErrorHandler.cs" />
     <Compile Include="ServiceRequester\IDelegatingHandler.cs" />

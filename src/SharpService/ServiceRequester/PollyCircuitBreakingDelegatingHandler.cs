@@ -9,7 +9,7 @@ namespace SharpService.ServiceRequester
 {
     public class PollyCircuitBreakingDelegatingHandler : WCFDelegatingHandler
     {
-        private readonly ISharpServiceLogger _logger;
+        private readonly ILogger _logger;
         private readonly int _exceptionsAllowedBeforeBreaking;
         private readonly TimeSpan _durationOfBreak;
         private readonly Policy _circuitBreakerPolicy;

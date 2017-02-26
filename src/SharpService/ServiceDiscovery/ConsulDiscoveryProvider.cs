@@ -19,7 +19,12 @@ namespace SharpService.ServiceDiscovery
             throw new NotImplementedException();
         }
 
-        public Task<List<RegistryInformation>> FindAllServicesAsync()
+        public List<RegistryInformation> FindServices()
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<RegistryInformation> FindServices(string name)
         {
             throw new NotImplementedException();
         }
@@ -34,7 +39,17 @@ namespace SharpService.ServiceDiscovery
             throw new NotImplementedException();
         }
 
+        public List<RegistryInformation> FindServicesWithVersion(string name, string version)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<List<RegistryInformation>> FindServicesWithVersionAsync(string name, string version)
+        {
+            throw new NotImplementedException();
+        }
+
+        public RegistryInformation RegisterService(string serviceName, string version, Uri uri, List<string> tags = null)
         {
             throw new NotImplementedException();
         }

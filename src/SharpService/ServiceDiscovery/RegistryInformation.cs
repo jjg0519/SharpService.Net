@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace SharpService.ServiceDiscovery
 {
+    [Serializable]
     public class RegistryInformation
     {
         public string Name { get; set; }

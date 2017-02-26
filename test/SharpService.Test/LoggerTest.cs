@@ -9,8 +9,8 @@ namespace SharpService.Test
         [Test]
         public void TestExceptionlessLogger()
         {
-            ISharpServiceLogger logger = new ExceptionlessLogger();
-            logger.LogDebug("debug", "arg1", "arg2");
+            ILogger logger = new ExceptionlessLogger();
+            logger.LogDebug("debug");
             logger.LogError("error", new Exception("error"));
         }
     }

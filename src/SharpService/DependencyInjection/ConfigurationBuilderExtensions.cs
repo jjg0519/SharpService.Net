@@ -83,9 +83,21 @@ namespace SharpService.DependencyInjection
             return configuration;
         }
 
+        public static ConfigurationBuilder UseLog4Net(this ConfigurationBuilder configuration)
+        {
+            return UseLog4Net(configuration, "log4net.config");
+        }
+
+
+        public static ConfigurationBuilder UseLog4Net(this ConfigurationBuilder configuration, string configFile)
+        {
+            configuration.SetDefault<ILogger, Log4NetLogger>(new Log4NetLogger(configFile));
+            return configuration;
+        }
+
         public static ConfigurationBuilder UseExceptionlessLogger(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<ISharpServiceLogger, ExceptionlessLogger>();
+            configuration.SetDefault<ILogger, ExceptionlessLogger>();
             return configuration;
         }
 

@@ -1,5 +1,7 @@
 ﻿using Sample.Service;
+using SharpService.Components;
 using SharpService.DependencyInjection;
+using SharpService.ServiceDiscovery;
 using SharpService.ServiceRequester;
 using System;
 using System.Collections.Generic;
