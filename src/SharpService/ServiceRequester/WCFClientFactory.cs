@@ -14,9 +14,7 @@ namespace SharpService.ServiceRequester
             RefererConfiguration refererConfig)
         {
             var serviceDiscoveryProvider = await ObjectContainer.Resolve<IServiceDiscoveryProviderFactory>().GetAsync();
-            var serviceName = await serviceDiscoveryProvider.GetServiceNameAsync(
-                refererConfig.Interface,
-                refererConfig.Assembly);
+            var serviceName = await serviceDiscoveryProvider.GetServiceNameAsync(refererConfig.Interface, refererConfig.Assembly);
             var services = await serviceDiscoveryProvider.FindServicesAsync(serviceName);
             var loadBalance = await ObjectContainer.Resolve<ILoadBalanceFactory>().GetAsync(refererConfig);
             loadBalance.OnRefresh(services);

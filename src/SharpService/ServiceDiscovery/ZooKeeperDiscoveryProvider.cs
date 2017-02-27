@@ -24,6 +24,8 @@ namespace SharpService.ServiceDiscovery
         private ConcurrentDictionary<string, IZKChildListener> serviceListeners = new ConcurrentDictionary<string, IZKChildListener>();
         private ConcurrentDictionary<string, IZKDataListener> commandListeners = new ConcurrentDictionary<string, IZKDataListener>();
 
+        private  object clientLock = new object();
+
         public ZooKeeperDiscoveryProvider()
         {
             zkClient = ZKClientBuilder.NewZKClient(registryConfiguration.Address)
@@ -41,7 +43,22 @@ namespace SharpService.ServiceDiscovery
 
         private void ReconnectClient()
         {
-            
+            lock (clientLock)
+            {
+                var serviceNames = ServiceInstances.Select(x => x.Name).Distinct();
+                foreach (var serviceName in serviceNames)
+                {
+                    var zooServiceNamePath = $"/{SERVERPATH_PREFIX}/{serviceName}";
+                    AddServiceListener(zooServiceNamePath);
+                }
+                var serviceIds = ServiceInstances.Select(x => x.Id).Distinct();
+                foreach (var serviceId in serviceIds)
+                {
+                    var serviceName = ServiceInstances.Where(x => x.Id == serviceId).Select(s => s.Name).FirstOrDefault();
+                    var zooServiceIdPath = $"/{SERVERPATH_PREFIX}/{serviceName}/{serviceId}";
+                    AddCommandListener(zooServiceIdPath);
+                }
+            } 
         }
 
         public async Task RegisterServiceAsync()
@@ -125,20 +142,7 @@ namespace SharpService.ServiceDiscovery
                 var zooServiceNames = zkClient.GetChildren($"/{SERVERPATH_PREFIX}");
                 foreach (var zooServiceName in zooServiceNames)
                 {
-                    var zooServiceNamePath = $"/{SERVERPATH_PREFIX}/{zooServiceName}";
-
-                    var zooServiceIds = zkClient.GetChildren(zooServiceNamePath);
-                    foreach (var zooServiceId in zooServiceIds)
-                    {
-                        var zooServiceIdPath = $"/{SERVERPATH_PREFIX}/{zooServiceName}/{zooServiceId}";
-                        Stat stat = new Stat();
-                        //获取 节点中的对象  
-                        var instance = zkClient.ReadData<RegistryInformation>(zooServiceIdPath, stat);
-                        if (!ServiceInstances.Exists(x => x.Id == instance.Id))
-                        {
-                            ServiceInstances.Add(instance);
-                        }                       
-                    }
+                    FindServices(zooServiceName);
                 }
             }
             return Task.FromResult(ServiceInstances);
@@ -149,58 +153,97 @@ namespace SharpService.ServiceDiscovery
             var instances = await FindServicesAsync();
             if (!instances.Exists(x => x.Name == serviceName))
             {
-                var zooServiceNamePath = $"/{SERVERPATH_PREFIX}/{serviceName}";               
-                var zooServiceIds = zkClient.GetChildren(zooServiceNamePath);
-                foreach (var zooServiceId in zooServiceIds)
-                {
-                    var zooServiceIdPath = $"/{SERVERPATH_PREFIX}/{serviceName}/{zooServiceId}";
-                    Stat stat = new Stat();
-                    //获取 节点中的对象  
-                    var instance = zkClient.ReadData<RegistryInformation>(zooServiceIdPath, stat);
-                    if (!ServiceInstances.Exists(x => x.Id == instance.Id))
-                    {
-                        ServiceInstances.Add(instance);
-                    }
-                }
+                FindServices(serviceName);
             }
             return instances.Where(x => x.Name == serviceName).ToList();
         }
 
+        private void FindServices(string serviceName)
+        {
+            var zooServiceNamePath = $"/{SERVERPATH_PREFIX}/{serviceName}";
+            AddServiceListener(zooServiceNamePath);
+            var zooServiceIds = zkClient.GetChildren(zooServiceNamePath);
+            foreach (var zooServiceId in zooServiceIds)
+            {
+                var zooServiceIdPath = $"/{SERVERPATH_PREFIX}/{serviceName}/{zooServiceId}";
+                Stat stat = new Stat();
+                //获取 节点中的对象  
+                var instance = zkClient.ReadData<RegistryInformation>(zooServiceIdPath, stat);
+                if (!ServiceInstances.Exists(x => x.Id == instance.Id))
+                {
+                    AddCommandListener(zooServiceIdPath);
+                    ServiceInstances.Add(instance);
+                }
+            }
+        }
+
         private void AddServiceListener(string zooServiceNamePath)
         {
-            IZKChildListener serviceListener = new ZKChildListener()
+            if (!serviceListeners.ContainsKey(zooServiceNamePath))
+            {
+                IZKChildListener serviceListener = new ZKChildListener()
                 .ChildChange((parentPath, currentChilds) =>
                 {
-                    Console.Write($"ChildChange:{parentPath}-{string.Join(",", currentChilds)}");
+                    var serviceName = parentPath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[1];
+                    FindServices(serviceName);
+                    Console.WriteLine($"ChildChange:{parentPath}-{string.Join(",", currentChilds)}");
                 })
                 .ChildCountChanged((parentPath, currentChilds) =>
                 {
-                    Console.Write($"ChildCountChanged:{parentPath}-{string.Join(",", currentChilds)}");
+                    if (currentChilds.Count() == 0)
+                    {
+                        ServiceInstances.Clear();
+                    }
+                    Console.WriteLine($"ChildCountChanged:{parentPath}-{string.Join(",", currentChilds)}");
                 });
-            if (!serviceListeners.ContainsKey(zooServiceNamePath))
-            {
                 serviceListeners.TryAdd(zooServiceNamePath, serviceListener);
                 zkClient.SubscribeChildChanges(zooServiceNamePath, serviceListener);
             }
         }
 
         private void AddCommandListener(string zooServiceIdPath)
-        {
-            IZKDataListener commandListener = new ZKDataListener()
+        {          
+            if (!serviceListeners.ContainsKey(zooServiceIdPath))
+            {
+                IZKDataListener commandListener = new ZKDataListener()
                  .DataCreated((path, data) =>
                  {
-                     Console.Write($"DataCreated:{path}");
+                     var zooServiceId = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[2];
+                     if (ServiceInstances.Exists(x => x.Id == zooServiceId))
+                     {
+                         var index = ServiceInstances.FindIndex(x => x.Id == zooServiceId);
+                         ServiceInstances[index] = (RegistryInformation)data;
+                     }
+                     else
+                     {
+                         ServiceInstances.Add((RegistryInformation)data);
+                     }
+                     Console.WriteLine($"DataCreated:{path}");
                  })
                 .DataChange((path, data) =>
                 {
-                    Console.Write($"DataChange:{path}");
+                    var zooServiceId = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[2];
+                    if (ServiceInstances.Exists(x => x.Id == zooServiceId))
+                    {
+                        var index = ServiceInstances.FindIndex(x => x.Id == zooServiceId);
+                        ServiceInstances[index] = (RegistryInformation)data;
+                    }
+                    else
+                    {
+                        ServiceInstances.Add((RegistryInformation)data);
+                    }
+                    Console.WriteLine($"DataChange:{path}");
                 })
                  .DataDeleted((path) =>
                  {
-                     Console.Write($"DataDeleted:{path}");
+                     var zooServiceId = path.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries)[2];
+                     if (ServiceInstances.Exists(x => x.Id == zooServiceId))
+                     {
+                         var index = ServiceInstances.FindIndex(x => x.Id == zooServiceId);
+                         ServiceInstances.RemoveAt(index);
+                     }
+                     Console.WriteLine($"DataDeleted:{path}");
                  });
-            if (!serviceListeners.ContainsKey(zooServiceIdPath))
-            {
                 commandListeners.TryAdd(zooServiceIdPath, commandListener);
                 zkClient.SubscribeDataChanges(zooServiceIdPath, commandListener);
             }

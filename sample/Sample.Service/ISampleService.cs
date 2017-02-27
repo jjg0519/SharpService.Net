@@ -31,9 +31,9 @@ namespace Sample.Service
         double TestDouble(double d);
 
         [OperationContract]
-        List<object> TestList(List<object> list);
+        List<string> TestList(List<string> list);
 
         [OperationContract]
-        Dictionary<string, object> TestMap(Dictionary<string, object> map);
+        Dictionary<string, string> TestMap(Dictionary<string, string> map);
     }
 }

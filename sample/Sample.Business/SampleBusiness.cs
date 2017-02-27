@@ -31,7 +31,7 @@ namespace Sample.Business
             return i;
         }
 
-        public List<object> TestList(List<object> list)
+        public List<string> TestList(List<string> list)
         {
             return list;
         }
@@ -41,7 +41,7 @@ namespace Sample.Business
             return l;
         }
 
-        public Dictionary<string, object> TestMap(Dictionary<string, object> map)
+        public Dictionary<string, string> TestMap(Dictionary<string, string> map)
         {
             return map;
         }
