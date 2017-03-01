@@ -21,71 +21,76 @@ namespace SharpService.Configuration
                 case "nettcp":
                     _binding = new NetTcpBinding(security)
                     {
-                        OpenTimeout = new TimeSpan(0, 1, 0),
-                        CloseTimeout = new TimeSpan(0, 1, 0),
-#if DEBUG
-                        SendTimeout = new TimeSpan(0, 18, 00),
-                        ReceiveTimeout = new TimeSpan(18, 18, 00),
-                        MaxBufferSize = int.MaxValue,
-                        MaxReceivedMessageSize = int.MaxValue
-#else
-                        SendTimeout = new TimeSpan(0, 8, 00),
-                        ReceiveTimeout = new TimeSpan(0, 18, 00),
-                        MaxBufferSize = int.MaxValue,
-                        MaxReceivedMessageSize = int.MaxValue
-#endif
+                        OpenTimeout = new TimeSpan(0, 10, 0),
+                        CloseTimeout = new TimeSpan(0, 10, 0),
+                        SendTimeout = new TimeSpan(0, 10, 0),
+                        ReceiveTimeout = new TimeSpan(0, 10, 0),
+                        MaxBufferSize = 2147483647,
+                        MaxReceivedMessageSize = 2147483647,
+                        ReaderQuotas = new XmlDictionaryReaderQuotas()
+                        {
+                            MaxDepth = 2147483647,
+                            MaxStringContentLength = 2147483647,
+                            MaxArrayLength = 2147483647,
+                            MaxBytesPerRead = 2147483647,
+                            MaxNameTableCharCount = 2147483647
+                        }
                     };
                     break;
                 case "basichttp":
                     _binding = new BasicHttpBinding(BasicHttpSecurityMode.None)
                     {
-                        OpenTimeout = new TimeSpan(0, 1, 0),
-                        CloseTimeout = new TimeSpan(0, 1, 0),
-#if DEBUG
-                        SendTimeout = new TimeSpan(0, 18, 00),
-                        ReceiveTimeout = new TimeSpan(18, 18, 00),
-                        MaxBufferSize = int.MaxValue,
-                        MaxReceivedMessageSize = int.MaxValue
-#else
-                        SendTimeout = new TimeSpan(0, 8, 00),
-                        ReceiveTimeout = new TimeSpan(0, 18, 00),
-                        MaxBufferSize = int.MaxValue,
-                        MaxReceivedMessageSize = int.MaxValue
-#endif
+                        OpenTimeout = new TimeSpan(0, 10, 0),
+                        CloseTimeout = new TimeSpan(0, 10, 0),
+                        SendTimeout = new TimeSpan(0, 10, 0),
+                        ReceiveTimeout = new TimeSpan(0, 10, 0),
+                        MaxBufferSize = 2147483647,
+                        MaxReceivedMessageSize = 2147483647,
+                        ReaderQuotas = new XmlDictionaryReaderQuotas()
+                        {
+                            MaxDepth = 2147483647,
+                            MaxStringContentLength = 2147483647,
+                            MaxArrayLength = 2147483647,
+                            MaxBytesPerRead = 2147483647,
+                            MaxNameTableCharCount = 2147483647
+                        }
                     };
                     break;
                 case "wshttp":
                     _binding = new WSHttpBinding(security)
                     {
-                        OpenTimeout = new TimeSpan(0, 1, 0),
-                        CloseTimeout = new TimeSpan(0, 1, 0),
-#if DEBUG
-                        SendTimeout = new TimeSpan(0, 18, 00),
-                        ReceiveTimeout = new TimeSpan(18, 18, 00),
-                        MaxReceivedMessageSize = int.MaxValue
-#else
-                    SendTimeout = new TimeSpan(0, 8, 00),
-                    ReceiveTimeout = new TimeSpan(0, 18, 00),
-                    MaxReceivedMessageSize = int.MaxValue
-#endif
+                        OpenTimeout = new TimeSpan(0, 10, 0),
+                        CloseTimeout = new TimeSpan(0, 10, 0),
+                        SendTimeout = new TimeSpan(0, 10, 0),
+                        ReceiveTimeout = new TimeSpan(0, 10, 0),
+                        MaxReceivedMessageSize = 2147483647,
+                        ReaderQuotas = new XmlDictionaryReaderQuotas()
+                        {
+                            MaxDepth = 2147483647,
+                            MaxStringContentLength = 2147483647,
+                            MaxArrayLength = 2147483647,
+                            MaxBytesPerRead = 2147483647,
+                            MaxNameTableCharCount = 2147483647
+                        }
                     };
                     break;
                 default:
                     _binding = new NetTcpBinding(security)
                     {
-                        OpenTimeout = new TimeSpan(0, 1, 0),
-                        CloseTimeout = new TimeSpan(0, 1, 0),
-#if DEBUG
-                        SendTimeout = new TimeSpan(0, 18, 00),
-                        ReceiveTimeout = new TimeSpan(18, 18, 00),
-                        MaxBufferSize = int.MaxValue,
-                        MaxReceivedMessageSize = int.MaxValue
-#else
-                        SendTimeout = new TimeSpan(0, 8, 00),
-                        ReceiveTimeout = new TimeSpan(0, 18, 00),
-                        MaxBufferSize = int.MaxValue,
-                        MaxReceivedMessageSize = int.MaxValue
-#endif
+                        OpenTimeout = new TimeSpan(0, 10, 0),
+                        CloseTimeout = new TimeSpan(0, 10, 0),
+                        SendTimeout = new TimeSpan(0, 10, 0),
+                        ReceiveTimeout = new TimeSpan(0, 10, 0),
+                        MaxBufferSize = 2147483647,
+                        MaxReceivedMessageSize = 2147483647,
+                        ReaderQuotas = new XmlDictionaryReaderQuotas()
+                        {
+                            MaxDepth = 2147483647,
+                            MaxStringContentLength = 2147483647,
+                            MaxArrayLength = 2147483647,
+                            MaxBytesPerRead = 2147483647,
+                            MaxNameTableCharCount = 2147483647
+                        }
                     };
                     break;
             }
