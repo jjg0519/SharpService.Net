@@ -14,7 +14,7 @@ namespace Sample.ServiceProvider
                 .Create()
                 .UseAutofac()
                 .UseExceptionlessLogger()
-                .UseWCFServiceProvider()
+                .UseServiceProvider()
                 .UseServiceDiscoveryProvider();
 
             ObjectContainer.Resolve<SharpService.ServiceProvider.IServiceProvider>().Provider();

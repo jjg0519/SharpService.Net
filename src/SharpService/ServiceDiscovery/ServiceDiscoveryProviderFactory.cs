@@ -1,35 +1,30 @@
 ﻿using SharpService.Components;
 using SharpService.Configuration;
-using System.Configuration;
-using System.Threading.Tasks;
 
 namespace SharpService.ServiceDiscovery
 {
     public class ServiceDiscoveryProviderFactory : IServiceDiscoveryProviderFactory
     {
-        private const string registryConfig = "serviceGroup/registryConfig";
-        private readonly RegistryConfiguration registryConfiguration = ConfigurationManager.GetSection(registryConfig) as RegistryConfiguration;
+        private IConfigurationObject configuration { get; set; }
 
-        public Task<IServiceDiscoveryProvider> GetAsync()
+        public ServiceDiscoveryProviderFactory()
         {
-            return GetAsync(registryConfiguration);
+            configuration = ObjectContainer.Resolve<IConfigurationObject>();
         }
 
-        public Task<IServiceDiscoveryProvider> GetAsync(RegistryConfiguration registryConfig)
+        public IServiceDiscoveryProvider Get()
+        {
+            return Get(configuration.registryConfiguration);
+        }
+
+        public IServiceDiscoveryProvider Get(RegistryConfiguration registryConfig)
         {
             switch (registryConfig.RegProtocol)
             {
-                case "local":
-                    return Task.FromResult(ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(
-                        typeof(InMemoryDiscoveryProvider).FullName));
-                case "zookeeper":
-                    return Task.FromResult(ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(
-                        typeof(ZooKeeperDiscoveryProvider).FullName));
                 case "consul":
-                    return Task.FromResult(ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(
-                        typeof(ConsulDiscoveryProvider).FullName));
+                    return ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(typeof(ConsulDiscoveryProvider).FullName);
                 default:
-                    throw new UnableToFindServiceDiscoveryProviderException("UnableToFindServiceDiscoveryProvider");
+                    throw new UnableToFindServiceDiscoveryProviderException($"UnableToFindServiceDiscoveryProvider:{registryConfig.RegProtocol}");
             }
         }
     }

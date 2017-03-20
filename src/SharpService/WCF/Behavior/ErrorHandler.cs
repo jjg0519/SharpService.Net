@@ -3,7 +3,7 @@ using System.ServiceModel;
 using System.ServiceModel.Channels;
 using System.ServiceModel.Dispatcher;
 
-namespace SharpService.Behavior
+namespace SharpService.WCF.Behavior
 {
     public class ErrorHandler : IErrorHandler
     {

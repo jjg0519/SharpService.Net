@@ -1,23 +1,32 @@
 ﻿using SharpService.Components;
 using SharpService.Configuration;
-using System.Threading.Tasks;
 
 namespace SharpService.LoadBalance
 {
     public class LoadBalanceFactory : ILoadBalanceFactory
     {
-        public Task<ILoadBalanceProvider> GetAsync(RefererConfiguration refererConfig)
+        private IConfigurationObject configuration { get; set; }
+
+        public LoadBalanceFactory()
         {
-            switch (refererConfig.LoadBalance)
+            configuration = ObjectContainer.Resolve<IConfigurationObject>();
+        }
+
+        public ILoadBalanceProvider Get()
+        {
+            return Get(configuration.protocolConfiguration);
+        }
+
+        public ILoadBalanceProvider Get(ProtocolConfiguration protocolConfiguration)
+        {
+            switch (protocolConfig.LoadBalance)
             {
                 case "random":
-                    return Task.FromResult(ObjectContainer.ResolveNamed<ILoadBalanceProvider>(
-                        typeof(RandomLoadBalance).FullName));
+                    return ObjectContainer.ResolveNamed<ILoadBalanceProvider>(typeof(RandomLoadBalance).FullName);
                 case "roundrobin":
-                    return Task.FromResult(ObjectContainer.ResolveNamed<ILoadBalanceProvider>(
-                        typeof(RoundRobinLoadBalance).FullName));
+                    return ObjectContainer.ResolveNamed<ILoadBalanceProvider>(typeof(RoundRobinLoadBalance).FullName);
                 default:
-                    throw new UnableToFindLoadBalanceException("UnableToFindServiceDiscoveryProvider");
+                    throw new UnableToFindLoadBalanceException($"UnableToFindServiceDiscoveryProvider:{protocolConfig.LoadBalance}");
             }
         }
     }

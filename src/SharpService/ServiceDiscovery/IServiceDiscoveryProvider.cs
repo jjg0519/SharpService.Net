@@ -7,25 +7,19 @@ namespace SharpService.ServiceDiscovery
 {
     public interface IServiceDiscoveryProvider
     {
-        Task<string> GetServiceNameAsync(string @interface, string @assembly);
-
-        Task<string> GetServiceIdAsync(string serviceName, Uri uri);
-
-        Task RegisterServiceAsync();
-
-        Task<RegistryInformation> RegisterServiceAsync(ServiceConfiguration serviceConfig);
-
-        Task<RegistryInformation> RegisterServiceAsync(string serviceName, string version, Uri uri, List<string> tags = null);
-
-        Task<bool> DeregisterServiceAsync(string serviceId);
-
-        Task<bool> DeregisterServiceAsync();
-
-        Task<List<RegistryInformation>> FindServicesAsync();
+        Task<List<RegistryInformation>> FindAllServicesAsync();
 
         Task<List<RegistryInformation>> FindServicesAsync(string name);
 
         Task<List<RegistryInformation>> FindServicesWithVersionAsync(string name, string version);
+
+        Task RegisterServiceAsync();
+
+        Task<RegistryInformation> RegisterServiceAsync(ServiceConfiguration serviceConfiguration, ProtocolConfiguration protocolConfiguration, Uri healthCheckUri = null, IEnumerable<string> tags = null);
+
+        Task DeregisterServiceAsync();
+
+        Task<bool> DeregisterServiceAsync(string serviceId);
 
     }
 }

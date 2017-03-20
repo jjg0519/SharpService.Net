@@ -18,19 +18,19 @@ namespace SharpService.Test
             ConfigurationBuilder
                  .Create()
                  .UseAutofac()
+                .UseConfigurationObject()
                  .UseExceptionlessLogger()
                  .UseWCFDelegatingHandler()
                  .UsePollyCircuitBreakingDelegatingHandler(
                     exceptionsAllowedBeforeBreaking: 2,
                     durationOfBreak: TimeSpan.FromSeconds(60)
                 )
-                .UseWCFServiceProvider()
+                .UseServiceProvider()
                 .UseServiceDiscoveryProvider()
                 .UseLoadBalance();
 
             ObjectContainer.Resolve<ServiceProvider.IServiceProvider>().Provider();
-            var serviceDiscoveryProvider = await ObjectContainer.Resolve<IServiceDiscoveryProviderFactory>()
-                .GetAsync();
+            var serviceDiscoveryProvider = ObjectContainer.Resolve<IServiceDiscoveryProviderFactory>().Get();
             await serviceDiscoveryProvider.RegisterServiceAsync();
         }
 
@@ -38,8 +38,7 @@ namespace SharpService.Test
         public async Task TearDown()
         {
             ObjectContainer.Resolve<ServiceProvider.IServiceProvider>().Close();
-            var serviceDiscoveryProvider = await ObjectContainer.Resolve<IServiceDiscoveryProviderFactory>()
-               .GetAsync();
+            var serviceDiscoveryProvider = ObjectContainer.Resolve<IServiceDiscoveryProviderFactory>().Get();
             await serviceDiscoveryProvider.DeregisterServiceAsync();
         }
 

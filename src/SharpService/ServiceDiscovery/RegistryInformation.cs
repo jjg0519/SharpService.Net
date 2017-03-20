@@ -12,6 +12,6 @@ namespace SharpService.ServiceDiscovery
         public string Host { get; set; }
         public int Port { get; set; }
         public string Version { get; set; }
-        public List<string> Tags { get; set; }
+        public IEnumerable<string> Tags { get; set; }
     }
 }

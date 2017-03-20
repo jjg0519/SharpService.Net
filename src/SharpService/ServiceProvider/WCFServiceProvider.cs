@@ -1,36 +1,38 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Reflection;
 using System.ServiceModel;
-using System.Text;
 using System.Threading;
 using ProtoBuf.ServiceModel;
 using SharpService.Utilities;
 using SharpService.Configuration;
 using System.ServiceModel.Description;
-using SharpService.Behavior;
+using SharpService.WCF.Behavior;
+using SharpService.Components;
+using SharpService.WCF;
 
 namespace SharpService.ServiceProvider
 {
     public class WCFServiceProvider : IServiceProvider
-    {
-        private const string serviceConfig = "serviceGroup/serviceConfig";
-        private const string classConfig = "serviceGroup/classConfig";
-        private static List<ServiceHost> hosts = new List<ServiceHost>();
-        private readonly List<Configuration.ServiceConfiguration> serviceConfigurations = ConfigurationManager.GetSection(serviceConfig) as List<Configuration.ServiceConfiguration>;
-        private readonly List<ClassConfiguration> classConfigurations = ConfigurationManager.GetSection(classConfig) as List<ClassConfiguration>;   
-        private static AutoResetEvent providerEvent = new AutoResetEvent(false);
+    {      
+        private IConfigurationObject configuration{ get; set; }
 
-        public IServiceProvider Provider()
+        private  List<ServiceHost> hosts = new List<ServiceHost>();
+
+        public WCFServiceProvider()
+        {
+            configuration = ObjectContainer.Resolve<IConfigurationObject>();
+        }
+
+        private  AutoResetEvent providerEvent = new AutoResetEvent(false);
+
+        public void Provider()
         {
             int serviceCount = 0;
-            foreach (var serviceConfiguration in serviceConfigurations)
+            foreach (var serviceConfiguration in configuration.serviceConfigurations)
             {
-                if (serviceConfiguration.Enable == false)
-                    continue;
-                var classsConfiguration = classConfigurations.FirstOrDefault(x => x.Id == serviceConfiguration.Ref);
+                var classsConfiguration = configuration.classConfigurations.FirstOrDefault(x => x.Id == serviceConfiguration.Ref);
                 if (classsConfiguration == null)
                 {
                     throw new ArgumentNullException("classsConfiguration can not find !");
@@ -64,17 +66,20 @@ namespace SharpService.ServiceProvider
                 {
                     throw new ArgumentNullException(string.Format("implementedContract can not find type {0} assembly {1} !", serviceConfiguration.Interface, serviceConfiguration.Assembly));
                 }
-
+                var address = WCFHelper.CreateAddress(
+                    configuration.protocolConfiguration.Transmit,
+                    serviceConfiguration.Port.ToString(),
+                    implementedContract.Name.TrimStart('I').ToLower());
                 var endpoint = host.AddServiceEndpoint(
                       implementedContract,
-                      ConfigurationHelper.CreateBinding(serviceConfiguration.Binding, (SecurityMode)serviceConfiguration.Security),
-                      new Uri(serviceConfiguration.Address));
+                      WCFHelper.CreateBinding(configuration.protocolConfiguration.Transmit),
+                      new Uri(address));
                 endpoint.Behaviors.Add(new ProtoEndpointBehavior());
                 if (host.Description.Behaviors.Find<ServiceMetadataBehavior>() == null)
                 {
                     var behavior = new ServiceMetadataBehavior();
-                    behavior.HttpGetEnabled = serviceConfiguration.Binding.Contains("http") ? true : false;
-                    behavior.HttpGetUrl = serviceConfiguration.Binding.Contains("http") ?
+                    behavior.HttpGetEnabled = configuration.protocolConfiguration.Transmit.Contains("http") ? true : false;
+                    behavior.HttpGetUrl = configuration.protocolConfiguration.Transmit.Contains("http") ?
                                                         new Uri($"{host.Description.Endpoints[0].Address.Uri.ToString()}/mex") :
                                                         null;
                     host.Description.Behaviors.Add(behavior);
@@ -88,7 +93,7 @@ namespace SharpService.ServiceProvider
                 host.Opened += (sender, o) =>
                 {
                     serviceCount++;
-                    if (serviceConfigurations.Count(x => x.Enable) == serviceCount)
+                    if (configuration.serviceConfigurations.Count() == serviceCount)
                     {
                         providerEvent.Set();
                     }
@@ -97,10 +102,9 @@ namespace SharpService.ServiceProvider
                     host.Open();
             }
             providerEvent.WaitOne();
-            return this;
         }
 
-        public IServiceProvider Close()
+        public void Close()
         {
             foreach (var host in hosts)
             {
@@ -108,7 +112,6 @@ namespace SharpService.ServiceProvider
                     host.Close();
             }
             hosts.Clear();
-            return this;
         }
     }
 }

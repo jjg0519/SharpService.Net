@@ -25,14 +25,6 @@ namespace SharpService.Configuration
                         servicePropertie.SetValue(serviceConfiguration, Convert.ChangeType(attr.Value, servicePropertie.PropertyType), null);
                     }
                 }
-                serviceConfiguration.Address = ConfigurationHelper.CreateAddress(serviceConfiguration.Export, serviceConfiguration.Binding);
-                var uri = HttpUtil.GetUri(serviceConfiguration.Address);
-                serviceConfiguration.Host = uri.Host;
-                serviceConfiguration.Port = uri.Port;
-                if (serviceConfigurations.Exists(e => e.Address == serviceConfiguration.Address))
-                {
-                    throw new ArgumentNullException(" the address of the service address cannot be same");
-                }
                 if (!ValidateUtil.ValidateEntity(serviceConfiguration, out errorMessage))
                 {
                     throw new Exception(errorMessage);

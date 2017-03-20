@@ -5,7 +5,7 @@ using System.ServiceModel.Channels;
 using System.ServiceModel.Description;
 using System.ServiceModel.Dispatcher;
 
-namespace SharpService.Behavior
+namespace SharpService.WCF.Behavior
 {
     public class ErrorServiceBehavior : IServiceBehavior
     {

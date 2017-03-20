@@ -2,9 +2,9 @@
 {
     public interface IServiceProvider
     {
-        IServiceProvider Provider();
+        void Provider();
 
-        IServiceProvider Close();
+        void Close();
 
     }
 }

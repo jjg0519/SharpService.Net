@@ -1,32 +1,32 @@
-﻿using System;
+﻿using SharpService.Utilities;
+using System;
 using System.Configuration;
 using System.Xml;
-using SharpService.Utilities;
 
 namespace SharpService.Configuration
 {
-    public  class RegistryConfigurationHandler : IConfigurationSectionHandler
+    class ProtocolConfigurationHandler : IConfigurationSectionHandler
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
             var doc = ConfigurationHelper.CreateXmlDoc(section.OuterXml);
-            var registryConfiguration = new RegistryConfiguration();
+            var protocolConfiguration = new ProtocolConfiguration();
             var registryNode = doc.FirstChild.ChildNodes[0];
             var errorMessage = string.Empty;
-            var registryProperties = registryConfiguration.GetType().GetProperties();
+            var registryProperties = protocolConfiguration.GetType().GetProperties();
             foreach (var registryPropertie in registryProperties)
             {
                 var attr = registryNode.Attributes[registryPropertie.Name.ToLower()];
                 if (attr != null)
                 {
-                    registryPropertie.SetValue(registryConfiguration, Convert.ChangeType(attr.Value, registryPropertie.PropertyType), null);
+                    registryPropertie.SetValue(protocolConfiguration, Convert.ChangeType(attr.Value, registryPropertie.PropertyType), null);
                 }
             }
-            if (!ValidateUtil.ValidateEntity(registryConfiguration, out errorMessage))
+            if (!ValidateUtil.ValidateEntity(protocolConfiguration, out errorMessage))
             {
                 throw new Exception(errorMessage);
             }
-            return registryConfiguration;
+            return protocolConfiguration;
         }
     }
 }

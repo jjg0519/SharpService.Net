@@ -7,6 +7,7 @@ using SharpService.ServiceRequester;
 using SharpService.ServiceDiscovery;
 using SharpService.ServiceProvider;
 using System;
+using SharpService.Configuration;
 
 namespace SharpService.DependencyInjection
 {
@@ -20,6 +21,12 @@ namespace SharpService.DependencyInjection
         public static ConfigurationBuilder UseAutofac(this ConfigurationBuilder configuration, ContainerBuilder containerBuilder)
         {
             ObjectContainer.SetContainer(new AutofacObjectContainer(containerBuilder));
+            return configuration;
+        }
+
+        public static ConfigurationBuilder UseConfigurationObject(this ConfigurationBuilder configuration)
+        {
+            configuration.SetDefault<IConfigurationObject, ConfigurationObject>();
             return configuration;
         }
 
@@ -43,18 +50,28 @@ namespace SharpService.DependencyInjection
             return configuration;
         }
 
+        public static ConfigurationBuilder UseServiceProviderFactory(this ConfigurationBuilder configuration)
+        {
+            configuration.SetDefault<IServiceProviderFactory, ServiceProviderFactory>();
+            return configuration;
+        }
+
+        public static ConfigurationBuilder UseServiceProvider(this ConfigurationBuilder configuration)
+        {
+            UseWCFServiceProvider(configuration);
+            return configuration;
+        }
+
         public static ConfigurationBuilder UseWCFServiceProvider(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<ServiceProvider.IServiceProvider, WCFServiceProvider>();
+            configuration.SetDefault<ServiceProvider.IServiceProvider, WCFServiceProvider>(typeof(WCFServiceProvider).FullName);
             return configuration;
         }
 
         public static ConfigurationBuilder UseServiceDiscoveryProvider(this ConfigurationBuilder configuration)
         {
             UseServiceDiscoveryProviderFactory(configuration);
-            UseInMemoryDiscoveryProvider(configuration);
             UseConsulDiscoveryProvider(configuration);
-            UseZooKeeperDiscoveryProviderr(configuration);
             return configuration;
         }
 
@@ -64,22 +81,9 @@ namespace SharpService.DependencyInjection
             return configuration;
         }
 
-        public static ConfigurationBuilder UseInMemoryDiscoveryProvider(this ConfigurationBuilder configuration)
-        {
-            configuration.SetDefault<IServiceDiscoveryProvider, InMemoryDiscoveryProvider>(
-                typeof(InMemoryDiscoveryProvider).FullName);
-            return configuration;
-        }
-
         public static ConfigurationBuilder UseConsulDiscoveryProvider(this ConfigurationBuilder configuration)
         {
             configuration.SetDefault<IServiceDiscoveryProvider, ConsulDiscoveryProvider>(typeof(ConsulDiscoveryProvider).FullName);
-            return configuration;
-        }
-
-        public static ConfigurationBuilder UseZooKeeperDiscoveryProviderr(this ConfigurationBuilder configuration)
-        {
-            configuration.SetDefault<IServiceDiscoveryProvider, ZooKeeperDiscoveryProvider>(typeof(ZooKeeperDiscoveryProvider).FullName);
             return configuration;
         }
 
@@ -87,7 +91,6 @@ namespace SharpService.DependencyInjection
         {
             return UseLog4Net(configuration, "log4net.config");
         }
-
 
         public static ConfigurationBuilder UseLog4Net(this ConfigurationBuilder configuration, string configFile)
         {

@@ -11,13 +11,6 @@ namespace SharpService.Configuration
         public string Interface { get; set; }
 
         [Required]
-        public string Assembly { get; set; }
-
-        [Required]
-        public string LoadBalance { get; set; }
-
-        public string HaStrategy { get; set; } = "failfast";
-
-        public int ReTries { get; set; } = 2;
+        public string Assembly { get; set; }   
     }
 }
