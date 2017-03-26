@@ -37,7 +37,7 @@ namespace SharpService.ServiceDiscovery
                 Id = serviceEntry.Value.ID,
                 Address = serviceEntry.Value.Address,
                 Port = serviceEntry.Value.Port,
-                Version = ConsulHelper.GetVersionFromStrings(serviceEntry.Value.Tags),
+                Version = ServiceDiscoveryHelper.GetVersionFromStrings(serviceEntry.Value.Tags),
                 Tags = serviceEntry.Value.Tags
             });
 
@@ -52,7 +52,7 @@ namespace SharpService.ServiceDiscovery
                 Name = serviceEntry.Service.Service,
                 Address = serviceEntry.Service.Address,
                 Port = serviceEntry.Service.Port,
-                Version = ConsulHelper.GetVersionFromStrings(serviceEntry.Service.Tags),
+                Version = ServiceDiscoveryHelper.GetVersionFromStrings(serviceEntry.Service.Tags),
                 Tags = serviceEntry.Service.Tags ?? Enumerable.Empty<string>(),
                 Id = serviceEntry.Service.ID
             });
@@ -64,7 +64,6 @@ namespace SharpService.ServiceDiscovery
         {
             var instances = await FindServicesAsync(name);
             var range = new Range(version);
-
             return instances.Where(x => range.IsSatisfied(x.Version)).ToList();
         }
 
@@ -72,16 +71,19 @@ namespace SharpService.ServiceDiscovery
         {
             foreach (var serviceConfiguration in configuration.serviceConfigurations)
             {
-                await RegisterServiceAsync(serviceConfiguration, configuration.protocolConfiguration, null, null);
+                var protocolConfiguration = string.IsNullOrEmpty(serviceConfiguration.Protocol)? 
+                                                            configuration.protocolConfigurations.FirstOrDefault(x => x.Defalut) :
+                                                            configuration.protocolConfigurations.FirstOrDefault(x => x.Name== serviceConfiguration.Protocol);
+                await RegisterServiceAsync(serviceConfiguration, protocolConfiguration, null, null);
             }
         }
 
         public async Task<RegistryInformation> RegisterServiceAsync(ServiceConfiguration serviceConfiguration, ProtocolConfiguration protocolConfiguration, Uri healthCheckUri = null, IEnumerable<string> tags = null)
         {
-            var serviceId = ConsulHelper.GetServiceId(serviceConfiguration.Interface, serviceConfiguration.Port.ToString());
-            var serviceName = ConsulHelper.GetServiceName(protocolConfiguration.Protocol, serviceConfiguration.Interface);
+            var serviceId = ServiceDiscoveryHelper.GetServiceId(serviceConfiguration.Interface, serviceConfiguration.Port.ToString());
+            var serviceName = ServiceDiscoveryHelper.GetServiceName(protocolConfiguration.Protocol, serviceConfiguration.Interface);
 
-            string versionLabel = $"{ConsulHelper.VERSION_PREFIX}{serviceConfiguration.Version}";
+            string versionLabel = $"{ServiceDiscoveryHelper.VERSION_PREFIX}{serviceConfiguration.Version}";
             var tagList = (tags ?? Enumerable.Empty<string>()).ToList();
             tagList.Add(protocolConfiguration.Protocol);
             tagList.Add(protocolConfiguration.Transmit);
@@ -120,7 +122,7 @@ namespace SharpService.ServiceDiscovery
         {
             foreach (var serviceConfiguration in configuration.serviceConfigurations)
             {
-                var serviceId = ConsulHelper.GetServiceId(serviceConfiguration.Interface, serviceConfiguration.Port.ToString());
+                var serviceId = ServiceDiscoveryHelper.GetServiceId(serviceConfiguration.Interface, serviceConfiguration.Port.ToString());
                 await DeregisterServiceAsync(serviceId);
             }
         }

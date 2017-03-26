@@ -1,10 +1,10 @@
 ﻿using Sample.Service;
 using SharpService.DependencyInjection;
-using SharpService.ServiceRequester;
+using SharpService.ServiceClients;
 using System;
 using System.Collections.Generic;
 
-namespace Sample.ServiceClient
+namespace Sample.ServiceClientHost
 {
     class Program
     {
@@ -14,15 +14,12 @@ namespace Sample.ServiceClient
             ConfigurationBuilder
                 .Create()
                 .UseAutofac()
-                .UseExceptionlessLogger()
-                .UseWCFDelegatingHandler()
-                .UseServiceDiscoveryProvider()
+                .UseConfigurationObject()
+                .UseLog4Net()
+                .UseServiceClientProvider()
                 .UseLoadBalance();
 
-            var client = new RequestClient()
-                 .UseId("sampleService")
-                 .UseDelegatingHandler<WCFDelegatingHandler>()
-                 .BuilderClient<ISampleService>();
+            var client = new ServiceClient().GetServiceClient<ISampleService>("sampleService");
 
             Console.WriteLine($"TestArgVoid-{client.TestArgVoid()}") ;
             Console.WriteLine($"TestBoolean-{client.TestBoolean(true).ToString()}");

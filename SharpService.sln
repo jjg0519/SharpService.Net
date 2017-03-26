@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{611DEC97-D930-4207-8E9A-02145A703EE3}"
 EndProject
@@ -11,9 +11,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Business", "sample\S
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Service", "sample\Sample.Service\Sample.Service.csproj", "{C3E981DE-4EFE-4DA1-A487-6BDEE12294F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ServiceClient", "sample\Sample.ServiceClient\Sample.ServiceClient.csproj", "{F98AF792-5C96-4087-AA5E-D7A5DB7EBD8B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ServiceClientHost", "sample\Sample.ServiceClient\Sample.ServiceClientHost.csproj", "{F98AF792-5C96-4087-AA5E-D7A5DB7EBD8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ServiceProvider", "sample\Sample.ServiceProvider\Sample.ServiceProvider.csproj", "{5A34F891-A6C1-45B9-9DBD-50A850D77C07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ServiceProviderHost", "sample\Sample.ServiceProvider\Sample.ServiceProviderHost.csproj", "{5A34F891-A6C1-45B9-9DBD-50A850D77C07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTestLib", "test\ServiceTestLib\ServiceTestLib.csproj", "{4CF899DB-84C2-481B-A9E8-596F03BC07FD}"
 EndProject

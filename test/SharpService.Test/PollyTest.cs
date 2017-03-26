@@ -7,7 +7,7 @@ using System.Threading;
 
 namespace SharpService.Test
 {
-    public class PollyCircuitBreakingTest
+    public class PollyTest
     {
         [Test]
         public void CircuitBreakerTest()
@@ -29,10 +29,7 @@ namespace SharpService.Test
                    });
             try
             {
-                breaker.Execute(() =>
-                {
-                    throw new Exception("error");
-                });
+                breaker.Execute(() =>{  throw new Exception("error"); });
             }
             catch (Exception ex) { }
 

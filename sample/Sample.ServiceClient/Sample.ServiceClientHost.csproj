@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{5A34F891-A6C1-45B9-9DBD-50A850D77C07}</ProjectGuid>
+    <ProjectGuid>{F98AF792-5C96-4087-AA5E-D7A5DB7EBD8B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sample.ServiceProvider</RootNamespace>
-    <AssemblyName>Sample.ServiceProvider</AssemblyName>
+    <RootNamespace>Sample.ServiceClientHost</RootNamespace>
+    <AssemblyName>Sample.ServiceClientHost</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>

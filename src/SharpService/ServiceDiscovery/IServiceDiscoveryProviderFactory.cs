@@ -1,11 +1,9 @@
-﻿using SharpService.Configuration;
-
-namespace SharpService.ServiceDiscovery
+﻿namespace SharpService.ServiceDiscovery
 {
     public interface IServiceDiscoveryProviderFactory
     {
         IServiceDiscoveryProvider Get();
 
-        IServiceDiscoveryProvider Get(RegistryConfiguration registryConfig);
+        IServiceDiscoveryProvider Get(string regProtocol);
     }
 }

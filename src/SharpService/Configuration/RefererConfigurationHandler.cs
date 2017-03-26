@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Xml;
-using System.Linq;
 using SharpService.Utilities;
 
 namespace SharpService.Configuration

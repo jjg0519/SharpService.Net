@@ -12,26 +12,29 @@ using SharpService.WCF.Behavior;
 using SharpService.Components;
 using SharpService.WCF;
 
-namespace SharpService.ServiceProvider
+namespace SharpService.ServiceProviders
 {
     public class WCFServiceProvider : IServiceProvider
-    {      
-        private IConfigurationObject configuration{ get; set; }
+    {
+        private IConfigurationObject configuration { get; set; }
 
-        private  List<ServiceHost> hosts = new List<ServiceHost>();
+        private List<ServiceHost> hosts = new List<ServiceHost>();
 
         public WCFServiceProvider()
         {
             configuration = ObjectContainer.Resolve<IConfigurationObject>();
         }
 
-        private  AutoResetEvent providerEvent = new AutoResetEvent(false);
+        private AutoResetEvent providerEvent = new AutoResetEvent(false);
 
-        public void Provider()
+        public void Provider(List<Configuration.ServiceConfiguration> serviceConfigurations)
         {
             int serviceCount = 0;
-            foreach (var serviceConfiguration in configuration.serviceConfigurations)
+            foreach (var serviceConfiguration in serviceConfigurations)
             {
+                var protocolConfiguration = string.IsNullOrEmpty(serviceConfiguration.Protocol) ?
+                                                         configuration.protocolConfigurations.FirstOrDefault(x => x.Defalut) :
+                                                         configuration.protocolConfigurations.FirstOrDefault(x => x.Name == serviceConfiguration.Protocol);
                 var classsConfiguration = configuration.classConfigurations.FirstOrDefault(x => x.Id == serviceConfiguration.Ref);
                 if (classsConfiguration == null)
                 {
@@ -67,20 +70,20 @@ namespace SharpService.ServiceProvider
                     throw new ArgumentNullException(string.Format("implementedContract can not find type {0} assembly {1} !", serviceConfiguration.Interface, serviceConfiguration.Assembly));
                 }
                 var address = WCFHelper.CreateAddress(
-                    configuration.protocolConfiguration.Transmit,
+                   protocolConfiguration.Transmit,
                     serviceConfiguration.Port.ToString(),
                     implementedContract.Name.TrimStart('I').ToLower());
                 var endpoint = host.AddServiceEndpoint(
                       implementedContract,
-                      WCFHelper.CreateBinding(configuration.protocolConfiguration.Transmit),
+                      WCFHelper.CreateBinding(protocolConfiguration.Transmit),
                       new Uri(address));
                 endpoint.Behaviors.Add(new ProtoEndpointBehavior());
                 if (host.Description.Behaviors.Find<ServiceMetadataBehavior>() == null)
                 {
                     var behavior = new ServiceMetadataBehavior();
-                    behavior.HttpGetEnabled = configuration.protocolConfiguration.Transmit.Contains("http") ? true : false;
-                    behavior.HttpGetUrl = configuration.protocolConfiguration.Transmit.Contains("http") ?
-                                                        new Uri($"{host.Description.Endpoints[0].Address.Uri.ToString()}/mex") :
+                    behavior.HttpGetEnabled = protocolConfiguration.Transmit.Contains("http") ? true : false;
+                    behavior.HttpGetUrl = protocolConfiguration.Transmit.Contains("http") ?
+                                                        new Uri($"{host.Description.Endpoints[0].Address.Uri.ToString()}/metadata") :
                                                         null;
                     host.Description.Behaviors.Add(behavior);
                 }

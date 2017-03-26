@@ -1,12 +1,11 @@
 ﻿using NUnit.Framework;
 using ServiceTestLib;
 using System;
-using SharpService.ServiceRequester;
 using System.Threading;
 using SharpService.DependencyInjection;
-using SharpService.Components;
-using SharpService.ServiceDiscovery;
 using System.Threading.Tasks;
+using SharpService.ServiceProviders;
+using SharpService.ServiceClients;
 
 namespace SharpService.Test
 {
@@ -18,62 +17,46 @@ namespace SharpService.Test
             ConfigurationBuilder
                  .Create()
                  .UseAutofac()
-                .UseConfigurationObject()
-                 .UseExceptionlessLogger()
-                 .UseWCFDelegatingHandler()
-                 .UsePollyCircuitBreakingDelegatingHandler(
-                    exceptionsAllowedBeforeBreaking: 2,
-                    durationOfBreak: TimeSpan.FromSeconds(60)
-                )
-                .UseServiceProvider()
-                .UseServiceDiscoveryProvider()
-                .UseLoadBalance();
+                 .UseConfigurationObject()
+                 .UseLog4Net()
+                 .UseServiceProvider()
+                 .UseServiceDiscoveryProvider()
+                 .UseServiceClientProvider()
+                 .UseLoadBalance();
 
-            ObjectContainer.Resolve<ServiceProvider.IServiceProvider>().Provider();
-            var serviceDiscoveryProvider = ObjectContainer.Resolve<IServiceDiscoveryProviderFactory>().Get();
-            await serviceDiscoveryProvider.RegisterServiceAsync();
+            await new ServiceProvider().Provider();
+
         }
 
         [OneTimeTearDown]
         public async Task TearDown()
         {
-            ObjectContainer.Resolve<ServiceProvider.IServiceProvider>().Close();
-            var serviceDiscoveryProvider = ObjectContainer.Resolve<IServiceDiscoveryProviderFactory>().Get();
-            await serviceDiscoveryProvider.DeregisterServiceAsync();
+            await new ServiceProvider().Close();
         }
 
         [Test]
         public void TestSendMessage()
         {
-            var client = new RequestClient()
-                .UseId("helloService")
-                .UseDelegatingHandler<WCFDelegatingHandler>()
-                .BuilderClient<IHelloService>();
+            var client = new ServiceClient().GetServiceClient<IHelloService>("helloService");
             Console.WriteLine(client.SendMessage("SendMessage"));
         }
 
         [Test]
         public void TestSendData()
         {
-            var client = new RequestClient()
-                 .UseId("helloService")
-                .UseDelegatingHandler<WCFDelegatingHandler>()
-                .BuilderClient<IHelloService>();
+            var client = new ServiceClient().GetServiceClient<IHelloService>("helloService");
             Console.WriteLine(client.SendData(new Data { Message = "SendData" }).Message);
         }
 
         [Test]
-        public void TestPollyCircuitBreakingDelegatingHandler()
+        public void TestPollyCircuitBreaking()
         {
-            var proxy = new RequestClient()
-               .UseDelegatingHandler<PollyCircuitBreakingDelegatingHandler>();
-            var client = proxy.UseId("helloService").BuilderClient<IHelloService>();
+            var client = new ServiceClient().GetServiceClient<IHelloService>("helloService");
             try { client.Error(); } catch { }
             try { client.Error(); } catch { }
             try { client.OK(); } catch { }
             Thread.Sleep(TimeSpan.FromSeconds(60));
             try { client.OK(); } catch { }
-            try { client.TimeOut(); } catch { }
         }
     }
 }

@@ -1,13 +1,11 @@
 ﻿using Autofac;
-using Polly.Timeout;
 using SharpService.Components;
 using SharpService.LoadBalance;
 using SharpService.Logging;
-using SharpService.ServiceRequester;
 using SharpService.ServiceDiscovery;
-using SharpService.ServiceProvider;
-using System;
+using SharpService.ServiceProviders;
 using SharpService.Configuration;
+using SharpService.ServiceClients;
 
 namespace SharpService.DependencyInjection
 {
@@ -30,23 +28,29 @@ namespace SharpService.DependencyInjection
             return configuration;
         }
 
-        public static ConfigurationBuilder UseWCFDelegatingHandler(this ConfigurationBuilder configuration)
+        public static ConfigurationBuilder UseServiceClientProvider(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<IDelegatingHandler, WCFDelegatingHandler>(typeof(WCFDelegatingHandler).FullName);
+            UseServiceClientProviderFactory(configuration);
+            UseWCFServiceClientProvider(configuration);          
             return configuration;
         }
 
-        public static ConfigurationBuilder UsePollyCircuitBreakingDelegatingHandler(
-            this ConfigurationBuilder configuration, 
-            int exceptionsAllowedBeforeBreaking,
-            TimeSpan durationOfBreak)
+        public static ConfigurationBuilder UseServiceClientProviderFactory(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<IDelegatingHandler, PollyCircuitBreakingDelegatingHandler>(
-                new PollyCircuitBreakingDelegatingHandler(
-                    exceptionsAllowedBeforeBreaking: exceptionsAllowedBeforeBreaking,
-                    durationOfBreak: durationOfBreak
-                    ),
-                typeof(PollyCircuitBreakingDelegatingHandler).FullName);
+            configuration.SetDefault<IServiceClientProviderFactory, ServiceClientProviderFactory>();
+            return configuration;
+        }
+
+        public static ConfigurationBuilder UseWCFServiceClientProvider(this ConfigurationBuilder configuration)
+        {
+            configuration.SetDefault<IServiceClientProvider, WCFServiceClientProvider>(typeof(WCFServiceClientProvider).FullName);
+            return configuration;
+        }
+
+        public static ConfigurationBuilder UseServiceProvider(this ConfigurationBuilder configuration)
+        {
+            UseServiceProviderFactory(configuration);
+            UseWCFServiceProvider(configuration);
             return configuration;
         }
 
@@ -55,22 +59,17 @@ namespace SharpService.DependencyInjection
             configuration.SetDefault<IServiceProviderFactory, ServiceProviderFactory>();
             return configuration;
         }
-
-        public static ConfigurationBuilder UseServiceProvider(this ConfigurationBuilder configuration)
-        {
-            UseWCFServiceProvider(configuration);
-            return configuration;
-        }
-
+   
         public static ConfigurationBuilder UseWCFServiceProvider(this ConfigurationBuilder configuration)
         {
-            configuration.SetDefault<ServiceProvider.IServiceProvider, WCFServiceProvider>(typeof(WCFServiceProvider).FullName);
+            configuration.SetDefault<ServiceProviders.IServiceProvider, WCFServiceProvider>(typeof(WCFServiceProvider).FullName);
             return configuration;
         }
 
         public static ConfigurationBuilder UseServiceDiscoveryProvider(this ConfigurationBuilder configuration)
         {
             UseServiceDiscoveryProviderFactory(configuration);
+            UseInMemoryDiscoveryProvider(configuration);
             UseConsulDiscoveryProvider(configuration);
             return configuration;
         }
@@ -78,6 +77,12 @@ namespace SharpService.DependencyInjection
         public static ConfigurationBuilder UseServiceDiscoveryProviderFactory(this ConfigurationBuilder configuration)
         {
             configuration.SetDefault<IServiceDiscoveryProviderFactory, ServiceDiscoveryProviderFactory>();
+            return configuration;
+        }
+
+        public static ConfigurationBuilder UseInMemoryDiscoveryProvider(this ConfigurationBuilder configuration)
+        {
+            configuration.SetDefault<IServiceDiscoveryProvider, InMemoryDiscoveryProvider>(typeof(InMemoryDiscoveryProvider).FullName);
             return configuration;
         }
 

@@ -33,7 +33,7 @@ namespace SharpService.Test
         public void TestProtocolConfiguration()
         {
             var protocolConfig = "serviceGroup/protocolConfig";
-            var protocolConfiguration = ConfigurationManager.GetSection(protocolConfig) as ProtocolConfiguration;
+            var protocolConfigurations = ConfigurationManager.GetSection(protocolConfig) as List<ProtocolConfiguration>;
         }
 
         [Test]

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace SharpService.ServiceProvider
+namespace SharpService.ServiceProviders
 {
     [Serializable]
     internal class UnableToFindServiceProviderException : Exception

@@ -1,5 +1,6 @@
 ﻿using SharpService.Components;
 using SharpService.Configuration;
+using System.Linq;
 
 namespace SharpService.LoadBalance
 {
@@ -14,19 +15,19 @@ namespace SharpService.LoadBalance
 
         public ILoadBalanceProvider Get()
         {
-            return Get(configuration.protocolConfiguration);
+            return Get(configuration.protocolConfigurations.FirstOrDefault(x => x.Defalut).LoadBalance);
         }
 
-        public ILoadBalanceProvider Get(ProtocolConfiguration protocolConfiguration)
+        public ILoadBalanceProvider Get(string loadBalance)
         {
-            switch (protocolConfig.LoadBalance)
+            switch (loadBalance)
             {
                 case "random":
                     return ObjectContainer.ResolveNamed<ILoadBalanceProvider>(typeof(RandomLoadBalance).FullName);
                 case "roundrobin":
                     return ObjectContainer.ResolveNamed<ILoadBalanceProvider>(typeof(RoundRobinLoadBalance).FullName);
                 default:
-                    throw new UnableToFindLoadBalanceException($"UnableToFindServiceDiscoveryProvider:{protocolConfig.LoadBalance}");
+                    throw new UnableToFindLoadBalanceException($"UnableToFindLoadBalance:{loadBalance}");
             }
         }
     }

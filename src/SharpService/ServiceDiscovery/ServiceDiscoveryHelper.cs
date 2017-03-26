@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace SharpService.ServiceDiscovery
 {
-    public class ConsulHelper
+    public class ServiceDiscoveryHelper
     {
         public const string VERSION_PREFIX = "version_";
 

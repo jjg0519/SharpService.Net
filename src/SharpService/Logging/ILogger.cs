@@ -1,6 +1,4 @@
-﻿using Exceptionless;
-using Exceptionless.Logging;
-using System;
+﻿using System;
 
 namespace SharpService.Logging
 {

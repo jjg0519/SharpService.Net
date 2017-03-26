@@ -32,12 +32,12 @@ namespace SharpService.Configuration
             }
         }
 
-        public ProtocolConfiguration protocolConfiguration
+        public List<ProtocolConfiguration> protocolConfigurations
         {
             get
             {
                 var protocolConfig = "serviceGroup/protocolConfig";
-                return ConfigurationManager.GetSection(protocolConfig) as ProtocolConfiguration;
+                return ConfigurationManager.GetSection(protocolConfig) as List<ProtocolConfiguration>;
             }
         }
        

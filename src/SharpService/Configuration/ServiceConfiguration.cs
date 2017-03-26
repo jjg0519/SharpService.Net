@@ -17,5 +17,7 @@ namespace SharpService.Configuration
 
         [Required]
         public int Port { get; set; }
+
+        public string Protocol { get; set; }
     }
 }

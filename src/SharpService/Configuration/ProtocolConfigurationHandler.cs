@@ -1,32 +1,37 @@
 ﻿using SharpService.Utilities;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Xml;
 
 namespace SharpService.Configuration
 {
-    class ProtocolConfigurationHandler : IConfigurationSectionHandler
+   public class ProtocolConfigurationHandler : IConfigurationSectionHandler
     {
         public object Create(object parent, object configContext, XmlNode section)
         {
+            var protocolConfigurations = new List<ProtocolConfiguration>();
             var doc = ConfigurationHelper.CreateXmlDoc(section.OuterXml);
-            var protocolConfiguration = new ProtocolConfiguration();
-            var registryNode = doc.FirstChild.ChildNodes[0];
-            var errorMessage = string.Empty;
-            var registryProperties = protocolConfiguration.GetType().GetProperties();
-            foreach (var registryPropertie in registryProperties)
+            foreach (XmlNode protocolNode in doc.FirstChild.ChildNodes)
             {
-                var attr = registryNode.Attributes[registryPropertie.Name.ToLower()];
-                if (attr != null)
+                var errorMessage = string.Empty;
+                var protocolConfiguration = new ProtocolConfiguration();
+                var protocolProperties = protocolConfiguration.GetType().GetProperties();
+                foreach (var protocolPropertie in protocolProperties)
                 {
-                    registryPropertie.SetValue(protocolConfiguration, Convert.ChangeType(attr.Value, registryPropertie.PropertyType), null);
+                    var attr = protocolNode.Attributes[protocolPropertie.Name.ToLower()];
+                    if (attr != null)
+                    {
+                        protocolPropertie.SetValue(protocolConfiguration, Convert.ChangeType(attr.Value, protocolPropertie.PropertyType), null);
+                    }
                 }
+                if (!ValidateUtil.ValidateEntity(protocolConfiguration, out errorMessage))
+                {
+                    throw new Exception(errorMessage);
+                }
+                protocolConfigurations.Add(protocolConfiguration);
             }
-            if (!ValidateUtil.ValidateEntity(protocolConfiguration, out errorMessage))
-            {
-                throw new Exception(errorMessage);
-            }
-            return protocolConfiguration;
+            return protocolConfigurations;
         }
     }
 }

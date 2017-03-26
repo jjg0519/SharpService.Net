@@ -10,8 +10,9 @@ namespace SharpService.Configuration
 
         List<ClassConfiguration> classConfigurations { get; }
 
-        RegistryConfiguration registryConfiguration { get; }
+        List<ProtocolConfiguration> protocolConfigurations { get; }
 
-        ProtocolConfiguration protocolConfiguration { get; }
+        RegistryConfiguration registryConfiguration { get; }
+    
     }
 }

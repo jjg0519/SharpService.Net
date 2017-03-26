@@ -11,6 +11,8 @@ namespace SharpService.Configuration
         public string Interface { get; set; }
 
         [Required]
-        public string Assembly { get; set; }   
+        public string Assembly { get; set; }
+
+        public string Protocol { get; set; }
     }
 }

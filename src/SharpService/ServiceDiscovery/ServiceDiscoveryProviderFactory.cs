@@ -14,17 +14,19 @@ namespace SharpService.ServiceDiscovery
 
         public IServiceDiscoveryProvider Get()
         {
-            return Get(configuration.registryConfiguration);
+            return Get(configuration.registryConfiguration.RegProtocol);
         }
 
-        public IServiceDiscoveryProvider Get(RegistryConfiguration registryConfig)
+        public IServiceDiscoveryProvider Get(string regProtocol)
         {
-            switch (registryConfig.RegProtocol)
+            switch (regProtocol)
             {
+                case "local":
+                    return ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(typeof(InMemoryDiscoveryProvider).FullName);
                 case "consul":
                     return ObjectContainer.ResolveNamed<IServiceDiscoveryProvider>(typeof(ConsulDiscoveryProvider).FullName);
                 default:
-                    throw new UnableToFindServiceDiscoveryProviderException($"UnableToFindServiceDiscoveryProvider:{registryConfig.RegProtocol}");
+                    throw new UnableToFindServiceDiscoveryProviderException($"UnableToFindServiceDiscoveryProvider:{regProtocol}");
             }
         }
     }
